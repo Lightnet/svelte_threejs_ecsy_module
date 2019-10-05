@@ -3,6 +3,14 @@
 ## Information:
  Build for threejs, ecsy, and svelte as well other packages to be module design.
 
+## Packages / Libs:
+ * ecsy
+ * threejs
+ * svelte
+ * gun
+ * gulp
+ * polka
+
 ## Link Refs:
  * https://github.com/MozillaReality/ecsy
  * https://svelte.dev/

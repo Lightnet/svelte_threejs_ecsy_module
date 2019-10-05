@@ -10,9 +10,9 @@
 
 localStorage.clear();
 //'use strict';
-//import App from './App.svelte';
+import App from './App.svelte';
 //import App from './component/threejs/ThreejsECSYComponent.svelte';
-import App from './component/threejs/ClientEngineComponent.svelte';
+//import App from './component/threejs/ClientEngineComponent.svelte';
 
 //console.log(`running svelte version ${svelte.VERSION}`);
 

@@ -108,7 +108,7 @@ function serve(done){
 }
 exports.serve = serve;
 function watch(done) {
-    gulp.watch(['./app.js','./src/**/*.*'], gulp.series(backend_build));
+    //gulp.watch(['./app.js','./src/**/*.*'], gulp.series(backend_build));
     //gulp.watch(['./src/client/**/*.*'], gulp.series( cleanbundle, frontrollup_build, lib_test, refreshbrowser));
     gulp.watch(['./src/**/*.*'], gulp.series( cleanbundle, frontrollup_build, copy_html));
     gulp.watch(['./src/common/**/*.*'], gulp.series( copy_common));
@@ -138,14 +138,27 @@ function copy_common(){
 }
 exports.copy_common = copy_common;
 
+var filepackagelibs = [
+    "node_modules/codemirror/lib/codemirror.css"
+]
+
+function copy_packagelibs(){
+    return gulp.src(filepackagelibs)
+    //.pipe(rollup(frontrollupconfig, 'umd'))
+    //.pipe(rename('gunjstrustsharekey.js'))
+    .pipe(gulp.dest('public/'));
+}
+exports.copy_common = copy_common;
+
 const build = gulp.series(
     frontrollup_build, 
-    backend_build, 
+    //backend_build,
     copy_css, copy_html, 
     copy_svg, 
     watch, 
     serve, 
-    copy_common
+    copy_common,
+    copy_packagelibs
     //browser_sync,
 );
 

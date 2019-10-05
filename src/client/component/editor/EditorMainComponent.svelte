@@ -6,6 +6,7 @@
   import OutlinerMainComponent from '../outliner/OutlinerMainComponent.svelte';
   import ProportiesMainComponent from '../properties/ProportiesMainComponent.svelte';
   import PreferencesMainComponent from '../preferences/PreferencesMainComponent.svelte';
+  import TextEditorMainComponent from '../texteditor/TextEditorMainComponent.svelte';
 
   let idcomponent = "editor-" + generateId();
   let elcontext;
@@ -17,6 +18,7 @@
   let editortypes = [];
 
   let editortype = "viewport3D";
+  editortype = "texteditor";
 
   function handle_auto_resize(event){
     if(elcontext == null){
@@ -34,6 +36,17 @@
     elcontent.style.width = parent.clientWidth + 'px';
   }
 
+  function checkeditortype(){
+    for(let i in editortypes){
+      console.log(editortypes[i]);
+      if(editortypes[i].context == editortype){
+        console.log("found!")
+        editortype = editortype;
+        break;
+      }
+    }
+  }
+
   onMount(() => {
     elcontext = document.getElementById(idcomponent);
     elnav = document.getElementById(idnav);
@@ -42,10 +55,14 @@
     window.addEventListener('resize', handle_auto_resize);
 
     editortypes.push({label:"Outliner",context:"outliner"})
-    editortypes.push({label:"Viewport3D",context:"viewport3D"})
+    editortypes.push({label:"Viewport 3D",context:"viewport3D"})
     editortypes.push({label:"Properties",context:"properties"})
     editortypes.push({label:"Preferences",context:"preferences"})
+    editortypes.push({label:"Text Editor",context:"texteditor"})
     editortypes = editortypes;
+
+    checkeditortype();
+
     //console.log(editortypes);
   });
 
@@ -60,14 +77,26 @@
 </script>
 
 <style>
-
+  .navheader{
+    padding:0px 0px 0px 0px;
+  }
+  select{
+	  padding-top: 0px;
+	  padding-left: 0px;
+	  padding-bottom: 0px;
+	  padding-right: 0px;
+  }
 </style>
 
-<div  id={idcomponent} >
-  <div id={idnav}>
+<div id={idcomponent} >
+  <div id={idnav} class="navheader">
     <select bind:value={editortype} on:change={SelectEditorType}>
       {#each editortypes as item}
-        <option value={item.context}> {item.label} </option>
+        {#if editortype == item.context}
+          <option value={item.context} selected="selected"> {item.label} </option>
+        {:else}
+          <option value={item.context}> {item.label} </option>
+        {/if}
       {/each}
     </select>
   </div>
@@ -83,6 +112,9 @@
     {/if}
     {#if editortype == "preferences"}
       <PreferencesMainComponent />
+    {/if}
+    {#if editortype == "texteditor"}
+      <TextEditorMainComponent />
     {/if}
   </div>
 </div>
