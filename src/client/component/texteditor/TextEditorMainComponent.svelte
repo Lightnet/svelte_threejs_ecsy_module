@@ -39,8 +39,16 @@
       lineNumbers: true,
       mode:  "javascript"
     });
+    //https://codemirror.net/doc/manual.html#api
     //editorCodeMirror.setSize("100%", "100%");
     //editorCodeMirror.refresh()
+
+    //console.log(editorCodeMirror.getValue());
+
+    //editorCodeMirror.setValue("Hello World!");
+
+
+
 
     handle_auto_resize();
     window.addEventListener('resize', handle_auto_resize);

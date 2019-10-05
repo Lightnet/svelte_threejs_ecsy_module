@@ -21,13 +21,13 @@
     elcontent = document.getElementById(idcomponent);
     handle_auto_resize();
     window.addEventListener('resize', handle_auto_resize);
+    window.dispatchEvent(new Event('resize'));
   });
 
   onDestroy(()=>{
 		window.removeEventListener('resize', handle_auto_resize);
 	});
 	
-
 </script>
 
 <style>

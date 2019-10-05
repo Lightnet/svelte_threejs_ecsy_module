@@ -3,10 +3,14 @@
   import { generateId } from '../../generateid';
 
   import ThreejsComponent from '../threejs/Threejs01Component.svelte';
+  import ThreejsNavComponent from '../threejs/ThreejsNavComponent.svelte';
   import OutlinerMainComponent from '../outliner/OutlinerMainComponent.svelte';
+  import OutlinerNavComponent from '../outliner/OutlinerNavComponent.svelte';
   import ProportiesMainComponent from '../properties/ProportiesMainComponent.svelte';
-  import PreferencesMainComponent from '../preferences/PreferencesMainComponent.svelte';
+  import ProportiesNavComponent from '../properties/ProportiesNavComponent.svelte';
   import TextEditorMainComponent from '../texteditor/TextEditorMainComponent.svelte';
+  import TextEditorNavComponent from '../texteditor/TextEditorNavComponent.svelte';
+  import PreferencesMainComponent from '../preferences/PreferencesMainComponent.svelte';
 
   let idcomponent = "editor-" + generateId();
   let elcontext;
@@ -40,7 +44,7 @@
     for(let i in editortypes){
       console.log(editortypes[i]);
       if(editortypes[i].context == editortype){
-        console.log("found!")
+        console.log("found!");
         editortype = editortype;
         break;
       }
@@ -61,8 +65,7 @@
     editortypes.push({label:"Text Editor",context:"texteditor"})
     editortypes = editortypes;
 
-    checkeditortype();
-
+    //checkeditortype();
     //console.log(editortypes);
   });
 
@@ -85,6 +88,7 @@
 	  padding-left: 0px;
 	  padding-bottom: 0px;
 	  padding-right: 0px;
+    float:left;
   }
 </style>
 
@@ -99,6 +103,20 @@
         {/if}
       {/each}
     </select>
+
+    {#if editortype == "viewport3D"}
+      <ThreejsNavComponent />
+    {/if}
+    {#if editortype == "outliner"}
+      <OutlinerNavComponent />
+    {/if}
+    {#if editortype == "properties"}
+      <ProportiesNavComponent />
+    {/if}
+    {#if editortype == "texteditor"}
+      <TextEditorNavComponent />
+    {/if}
+
   </div>
   <div id={idcontent}>
     {#if editortype == "viewport3D"}
