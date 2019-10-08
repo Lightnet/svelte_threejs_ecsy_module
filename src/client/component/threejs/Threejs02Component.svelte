@@ -17,8 +17,13 @@
     let container, scene, camera, sceneOrtho, cameraOrtho, renderer, controls, stats;
     let SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
     let VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-
     let textureLoader;
+    let model, skeleton, mixer ;
+
+    let idleAction, walkAction;
+
+    let actions ;
+    let clock = new THREE.Clock();
 
     onMount(function(){
         scene = new THREE.Scene();
@@ -28,8 +33,11 @@
         sceneOrtho = new THREE.Scene();
 
         //camera.position.set(0,150,400);
-        camera.position.z = 200;
-        camera.position.y = 100;
+        //camera.position.z = 200;
+        //camera.position.y = 100;
+
+        camera.position.z = 5;
+        camera.position.y = 5;
         camera.lookAt(scene.position);
         scene.add(camera);
 
@@ -45,6 +53,13 @@
 	    light.position.set(0,250,0);
         scene.add(light);
 
+        // background
+        var buffgeoBack = new THREE.BufferGeometry();
+        buffgeoBack.fromGeometry( new THREE.IcosahedronGeometry(8000,1) );
+        var back = new THREE.Mesh( buffgeoBack, new THREE.MeshBasicMaterial( { map:gradTexture([[1,0.75,0.5,0.25], ['#1B1D1E','#3D4143','#72797D', '#b0babf']]), side:THREE.BackSide, depthWrite: false }  ));
+        back.geometry.applyMatrix(new THREE.Matrix4().makeRotationZ(15*ToRad));
+        scene.add( back );
+
         //CAMERA CONTROL
         controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.target.set(0, 0, 0);
@@ -54,23 +69,47 @@
         controls.autoRotate = true;
         controls.update();
 
-        // background
-        var buffgeoBack = new THREE.BufferGeometry();
-        buffgeoBack.fromGeometry( new THREE.IcosahedronGeometry(8000,1) );
-        var back = new THREE.Mesh( buffgeoBack, new THREE.MeshBasicMaterial( { map:gradTexture([[1,0.75,0.5,0.25], ['#1B1D1E','#3D4143','#72797D', '#b0babf']]), side:THREE.BackSide, depthWrite: false }  ));
-        back.geometry.applyMatrix(new THREE.Matrix4().makeRotationZ(15*ToRad));
-        scene.add( back );
-
         //CUBE
-        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        var cube = new THREE.Mesh( geometry, material );
+        //var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        //var cube = new THREE.Mesh( geometry, material );
         //console.log(this.position);
         //cube.position.set(this.position.x,this.position.y,this.position.z);
-        cube.scale.set( 32, 32, 32 );
-        scene.add( cube );
+        //cube.scale.set( 32, 32, 32 );
+        //scene.add( cube );
 
         texture2dtext("name",0,0,0);
+
+
+        var loader = new THREE.GLTFLoader();
+        console.log(loader);
+        loader.load( 'animelowpolygon01.gltf', function ( gltf ) {
+            //scene.add( gltf.scene );
+            //console.log(gltf.scene);
+            
+            model = gltf.scene;
+            scene.add( model );
+
+            model.traverse( function ( object ) {
+				if ( object.isMesh ) object.castShadow = true;
+            });
+
+            skeleton = new THREE.SkeletonHelper( model );
+			//skeleton.visible = false;
+            scene.add( skeleton );
+            //https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html
+            var animations = gltf.animations;
+            mixer = new THREE.AnimationMixer( model );
+            console.log(animations);
+            
+            idleAction = mixer.clipAction( animations[ 0 ] );
+            walkAction = mixer.clipAction( animations[ 1 ] );
+            
+            actions = [ idleAction, walkAction ];
+
+        });
+
+
 
         //Init Render > requestAnimationFrame 
         animate();
@@ -95,7 +134,21 @@
 
     function animate() {
 	    requestAnimationFrame( animate );
-        //renderer.render( scene, camera );//default
+        //renderer.render( scene, camera );//simple default
+
+        // Get the time elapsed since the last frame, used for mixer update (if not in single step mode)
+        var mixerUpdateDelta = clock.getDelta();
+        // If in single step mode, make one step and then do nothing (until the user clicks again)
+        //...
+
+        // Update the animation mixer, the stats panel, and render this frame
+        if(mixer !=null){
+            mixer.update( mixerUpdateDelta );
+            console.log("mixer update")
+        }
+        
+
+
 
         renderer.clear();
         renderer.render( scene, camera );
@@ -132,6 +185,24 @@
 
     });
 
+    function btnplayidle(){
+        console.log("play ");
+        console.log(actions[0])
+        actions[0].play();
+    }
+
+    function btnplaywalk(){
+        console.log("play ");
+        actions[1].play();
+    }
+
+    function btnstop(){
+        console.log("stop actions");
+        actions.forEach( function ( action ) {
+		    action.stop();
+		});
+    }
+
 
 </script>
 <style>
@@ -144,3 +215,10 @@
 
 <!--<canvas id="canvas" class="topleft"></canvas>-->
 <div id="viewport" class="topleft" style="width:100%;height:100%;"></div>
+<div class="topleft">
+    
+    <button on:click={btnplayidle}> Play Idle</button>
+    <button on:click={btnplaywalk}>Play Walk</button>
+    <button on:click={btnstop}>Stop</button>
+    
+</div>

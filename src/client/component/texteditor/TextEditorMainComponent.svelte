@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher} from 'svelte';
   import { generateId } from '../../generateid';
+  import { gun } from '../../mjs';
   import "codemirror/mode/javascript/javascript";
   //import "codemirror/lib/codemirror.css";
   //import "codemirror/addon/edit/closebrackets";
@@ -13,6 +14,12 @@
 
   let idtextarea = "text-" + generateId();
   let eltextarea;
+
+  let guntextfiles;
+  let isScript = false;
+  let idScript="";
+
+  export let ideditor;
 
   function handle_auto_resize(event){
     if(elcontext == null){
@@ -42,13 +49,8 @@
     //https://codemirror.net/doc/manual.html#api
     //editorCodeMirror.setSize("100%", "100%");
     //editorCodeMirror.refresh()
-
     //console.log(editorCodeMirror.getValue());
-
     //editorCodeMirror.setValue("Hello World!");
-
-
-
 
     handle_auto_resize();
     window.addEventListener('resize', handle_auto_resize);
@@ -58,11 +60,59 @@
       //lineNumbers: true,
       //mode:  "javascript"
     //});
+    getScriptList();
+
+    window.addEventListener('editorevent', EditorEvents);
+
+    editorCodeMirror.on("change",function(e){
+      if(isScript){
+        console.log("type...");
+        let textscript = editorCodeMirror.getValue();
+        guntextfiles.get(idScript).put({content:textscript});
+      }
+    });
 
   });
 
+  function EditorEvents(e){
+    console.log(e);
+    if(e.detail.ideditor == ideditor){
+      if(e.detail.action == "scriptselect"){
+        console.log("found!");
+        guntextfiles.once().map().once(function(data,key){
+          console.log("data ",data);
+
+          if(data.id == e.detail.id){
+            isScript=true;
+            editorCodeMirror.setValue(data.content);
+            idScript=key;
+          }
+          console.log("key ",key);
+        });
+
+      }
+    }
+  }
+
+  async function getScriptList(){
+    let user = gun.user();
+    let pub = await user.get('pub');
+    console.log(user);
+    console.log(pub)
+
+    guntextfiles = gun.get(user.is.pub).get('textscript');
+
+    guntextfiles.once().map().once(function(data,key){
+      console.log("data ",data);
+      console.log("key ",key);
+    });
+  }
+
   onDestroy(()=>{
-		window.removeEventListener('resize', handle_auto_resize);
+    window.removeEventListener('resize', handle_auto_resize);
+    if(guntextfiles !=null){
+      guntextfiles.off();
+    }
   });
 
 </script>

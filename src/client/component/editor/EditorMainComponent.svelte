@@ -105,34 +105,34 @@
     </select>
 
     {#if editortype == "viewport3D"}
-      <ThreejsNavComponent />
+      <ThreejsNavComponent ideditor={idcomponent}/>
     {/if}
     {#if editortype == "outliner"}
-      <OutlinerNavComponent />
+      <OutlinerNavComponent  ideditor={idcomponent}/>
     {/if}
     {#if editortype == "properties"}
-      <ProportiesNavComponent />
+      <ProportiesNavComponent  ideditor={idcomponent}/>
     {/if}
     {#if editortype == "texteditor"}
-      <TextEditorNavComponent />
+      <TextEditorNavComponent  ideditor={idcomponent}/>
     {/if}
 
   </div>
   <div id={idcontent}>
     {#if editortype == "viewport3D"}
-      <ThreejsComponent />
+      <ThreejsComponent  ideditor={idcomponent}/>
     {/if}
     {#if editortype == "outliner"}
-      <OutlinerMainComponent />
+      <OutlinerMainComponent  ideditor={idcomponent}/>
     {/if}
     {#if editortype == "properties"}
-      <ProportiesMainComponent />
+      <ProportiesMainComponent  ideditor={idcomponent}/>
     {/if}
     {#if editortype == "preferences"}
-      <PreferencesMainComponent />
+      <PreferencesMainComponent  ideditor={idcomponent}/>
     {/if}
     {#if editortype == "texteditor"}
-      <TextEditorMainComponent />
+      <TextEditorMainComponent  ideditor={idcomponent}/>
     {/if}
   </div>
 </div>
