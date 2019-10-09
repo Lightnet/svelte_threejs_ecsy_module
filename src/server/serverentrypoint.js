@@ -2,8 +2,8 @@
 // https://dev.to/kvng_zeez/introducing-polka-a-micro-web-server-3p55
 // https://www.npmjs.com/package/polka
 
-import Game from '../common/Game';
-import ServerEngine from '../ServerEngine';
+//import Game from '../common/Game';
+//import ServerEngine from '../ServerEngine';
 
 console.log("Polka Server Init...")
 //console.log(__dirname);
@@ -11,6 +11,7 @@ console.log("Polka Server Init...")
 const polka = require('polka');
 const sirv = require('sirv');
 const compression = require('compression');
+const { json } = require('body-parser');
 //const uuidv4 = require('uuid/v4');
 //const helmet  = require('helmet');
 const Gun = require('gun');
@@ -21,6 +22,7 @@ var { PORT , NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 if(PORT == null){PORT = process.env.PORT || 8080;}
 const app = polka();
+app.use(json());//need for window.URL.createObjectURL
 app.use(compression({ threshold: 0 }));
 app.use(sirv('public', { dev }));
 app.use(Gun.serve);

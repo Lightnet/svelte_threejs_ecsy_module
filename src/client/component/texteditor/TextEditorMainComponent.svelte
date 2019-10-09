@@ -17,7 +17,8 @@
 
   let guntextfiles;
   let isScript = false;
-  let idScript="";
+  let idScript;
+  let textScript;
 
   export let ideditor;
 
@@ -67,29 +68,94 @@
     editorCodeMirror.on("change",function(e){
       if(isScript){
         console.log("type...");
-        let textscript = editorCodeMirror.getValue();
-        guntextfiles.get(idScript).put({content:textscript});
+        if(idScript!=null){
+          let textscript = editorCodeMirror.getValue();
+          textScript=textscript;
+          console.log(idScript);
+          guntextfiles.get(idScript).put({content:textscript});
+        }
       }
     });
 
+    //work code
+    //var jo = 'console.log("hello world")';
+    //let urltest = getBlobURL(jo,'text/javascript')
+    //console.log(urltest);
+    //var worker = new Worker(urltest);
+    //URL.revokeObjectURL(urltest);
+    //worker.onmessage = function(e) {
+      //console.log('worker returned: ', e.data);
+    //};
+
   });
+
+  function getBlobURL(code, type){
+    let blob = new Blob([code], { type })
+    return window.URL.createObjectURL(blob)
+  }
 
   function EditorEvents(e){
     console.log(e);
     if(e.detail.ideditor == ideditor){
       if(e.detail.action == "scriptselect"){
-        console.log("found!");
-        guntextfiles.once().map().once(function(data,key){
-          console.log("data ",data);
-
-          if(data.id == e.detail.id){
-            isScript=true;
+        //console.log("found!");
+        //TODOLIST
+        if(e.detail.id !=null){//NEED TO FIX THIS! NO CHECKS
+          isScript=true;
+          idScript=e.detail.id;
+          guntextfiles.get(e.detail.id).once(function(data){
+            console.log(data);
             editorCodeMirror.setValue(data.content);
-            idScript=key;
-          }
-          console.log("key ",key);
-        });
+          });
+        }
+      }
+      if(e.detail.action == "scripttextdelete"){
+        //prevent adding content
+        isScript=false;
+        editorCodeMirror.setValue("");
+      }
+      if(e.detail.action == "runscript"){
+        if(idScript == null){
+          console.log("NULL SCRIPT!")
+          return;
+        }
+        var win = window.open(
+          'http://localhost:8080/debugscripteditor.html',
+          //'_blank' // <- This is what makes it open in a new window.
+          'test'//id tab
+        );
+        let jsURL = getBlobURL(textScript, 'text/javascript');
+        var script = document.createElement('script');
+        script.src = jsURL;
+        win.document.head.appendChild(script);
 
+        //win.document.open();
+        //let jsURL = getBlobURL(textScript, 'text/javascript');
+        //win.document.write(`<script src="${jsURL}" />`);
+        //win.document.close();
+        //$(debugwin.document).ready(()=>{
+          //console.log("ready...")
+        //});
+        /*
+        let jsURL = getBlobURL(textScript, 'text/javascript');
+        //var worker = new Worker(jsURL);
+        //URL.revokeObjectURL(jsURL);
+        var jscript = document.createElement("script");
+        jscript.type = "text/javascript";
+        jscript.src = jsURL;
+        //win.document.body.appendChild(jscript);
+        function onload(){
+          console.log("window loaded");
+          debugwin.document.getElementById('targetDiv').appendChild(jscript);
+          //console.log(debugwin.document.body);
+          //console.log(jsURL);
+        }
+        if(debugwin.addEventListener){
+          debugwin.addEventListener('load', onload)
+        }else{
+          debugwin.attachEvent('onload', onload)
+        }
+        */
       }
     }
   }
@@ -97,14 +163,12 @@
   async function getScriptList(){
     let user = gun.user();
     let pub = await user.get('pub');
-    console.log(user);
-    console.log(pub)
-
+    //console.log(user);
+    //console.log(pub)
     guntextfiles = gun.get(user.is.pub).get('textscript');
-
     guntextfiles.once().map().once(function(data,key){
-      console.log("data ",data);
-      console.log("key ",key);
+      //console.log("data ",data);
+      //console.log("key ",key);
     });
   }
 
@@ -125,11 +189,7 @@
 </style>
 
 <div id={idcomponent} >
-  <!--TextEditorMainComponent-->
   <div id={idtextarea} class="texteditor">
   
   </div>
-  <!--
-  <textarea id={idtextarea} name="code" class="texteditor"></textarea>
-  -->
 </div>

@@ -115,8 +115,12 @@ function watch(done) {
     return done();
 }
 exports.watch = watch;
+var htmlfiles=[
+    'src/client/index.html',
+    'src/client/debugscripteditor.html'
+]
 function copy_html(){
-    return gulp.src('src/client/index.html')
+    return gulp.src(htmlfiles)
         .pipe(gulp.dest('public/'));
 }
 exports.copy_html = copy_html;
