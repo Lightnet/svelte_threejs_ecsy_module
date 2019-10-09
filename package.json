@@ -4,7 +4,8 @@
   "description": "Threejs UI Game and Editor",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js"
+    "test": "node app.js",
+    "start": "gulp default"
   },
   "keywords": [
     "gun",
