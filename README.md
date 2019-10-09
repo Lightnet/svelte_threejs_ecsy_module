@@ -3,6 +3,10 @@
 ## Information:
  Build for threejs, ecsy, and svelte as well other packages to be module design.
 
+ Note this work in progress. Creating the web page module layout to build game and editor.
+
+ I just creating Game Master tool for to develop game and editor in web browser that is writen in javascript and other packages.
+
 ## Packages / Libs:
  * ecsy
  * threejs
