@@ -34,7 +34,7 @@ export default class PlanePhysic3D extends PhysicalObject3D{
 
             let w = 32;
             let h = 32;
-            var g = new THREE.PlaneBufferGeometry( 600, 600,  w-1, h-1 );
+            var g = new THREE.PlaneBufferGeometry( 512, 512,  w-1, h-1 );
             g.applyMatrix(new THREE.Matrix4().makeRotationX( - Math.PI * 0.5 ));
             let terrain;
             this.plane = terrain = new THREE.Mesh(g, new THREE.MeshPhongMaterial ({color: 0x3D4143, shininess:60 }));
@@ -49,7 +49,7 @@ export default class PlanePhysic3D extends PhysicalObject3D{
         //console.log(game.physicsEngine.OIMO);
         //this.physicsObj = gameEngine.physicsEngine.addSphere(RADIUS, MASS);
         world = game.physicsEngine.world;
-        this.physicsObj = world.add({size:[50, 10, 50], pos:[0,0,0], density:1 });
+        this.physicsObj = world.add({size:[512, 5, 512], pos:[0,0,0], density:1 });
         //console.log(this.physicsObj);
     }
 

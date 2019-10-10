@@ -32,7 +32,7 @@ export class Physics3DSystem extends System {
       object.position.set(
         physics.position.x,
         physics.position.y,
-        physics.position.x
+        physics.position.z
       );
     }
   }

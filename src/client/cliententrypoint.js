@@ -43,7 +43,8 @@ import {setGun} from './mjs';
 //import App from './component/threejs/ThreejsECSYComponent.svelte';
 //import App from './component/threejs/Threejs02Component.svelte';
 //import App from './component/threejs/Threejs01Component.svelte';
-import App from './component/threejs/ClientEngineComponent.svelte';
+//import App from './component/threejs/ClientEngineComponent.svelte';
+import App from './component/threejs/ClientEngine02Component.svelte';
 
 var gun = Gun("http://localhost:8080/gun");
 function UserLogin(){

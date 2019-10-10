@@ -19,7 +19,7 @@ export default class CubePhysic3D extends PhysicalObject3D{
     onAddToWorld() {
         let scene;
         //let THREE;
-        let camera;
+        //let camera;
         console.log("Add Cube");
         let game = this.gameEngine;
         let world;
@@ -31,7 +31,7 @@ export default class CubePhysic3D extends PhysicalObject3D{
         if(game.renderer !=null){
             //THREE = game.renderer.THREE;
             scene = game.renderer.scene;
-            camera = game.renderer.camera;
+            //camera = game.renderer.camera;
 
             var geometry = new THREE.BoxGeometry( 1, 1, 1 );
             var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
@@ -43,8 +43,8 @@ export default class CubePhysic3D extends PhysicalObject3D{
             scene.add( cube );
             entity.addComponent(Object3D,{object: cube});
             //Camera
-            camera.position.z = 200;
-            camera.position.y = 100;
+            //camera.position.z = 200;
+            //camera.position.y = 100;
         }
         var all = 0xffffffff;
         var config = [
@@ -62,11 +62,11 @@ export default class CubePhysic3D extends PhysicalObject3D{
         let w = 32;
         let h = 32;
         let d = 32;
-        console.log(this.position);
+        //console.log(this.position);
 
         this.physicsObj = world.add({type:'box', size:[w,h,d], pos:[x,y,z], move:true, config:config, name:'box'})
         entity.addComponent(Physics3D,{object: this.physicsObj});
-        console.log(this.physicsObj);
+        //console.log(this.physicsObj);
         //if(this.Object3D !=null){
             //this.Object3D.position.set(this.physicsObj.position.x,this.physicsObj.position.y,this.physicsObj.position.x);
         //}
