@@ -28,7 +28,7 @@ export default class Game extends GameEngine {
         this.on('client__rendererReady', this.clientSideInit.bind(this));
         this.on('client__draw', this.clientSideDraw.bind(this));
         //do touch above?
-        console.log("Game Engine Init...");
+        //console.log("Game Engine Init...");
 
         this.clock = new THREE.Clock();
 
@@ -46,7 +46,7 @@ export default class Game extends GameEngine {
 
     registerClasses(serializer) {
         //console.log("=========================================")
-        console.log("Register GameObject!")
+        //console.log("Register GameObject!");
         //serializer.registerClass(YourGameObject);
         serializer.registerClass(CubePhysic3D);
         serializer.registerClass(PlanePhysic3D);

@@ -19,14 +19,14 @@ export default class PlanePhysic3D extends PhysicalObject3D{
         let scene;
         //let THREE;
         let camera;
-        console.log("Add Cube");
+        //console.log("Add PlanePhysic3D");
         let game = this.gameEngine;
-        console.log(game.renderer);
+        //console.log(game.renderer);
         if(game.renderer !=null){
             //THREE = game.renderer.THREE;
             scene = game.renderer.scene;
             camera = game.renderer.camera;
-            console.log(game);
+            //console.log(game);
 
             //var geometry = new THREE.BoxGeometry( 1, 1, 1 );
             //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
@@ -63,7 +63,6 @@ export default class PlanePhysic3D extends PhysicalObject3D{
     }
 
     toString() {
-        return `Asteroid::${super.toString()} Level${this.level}`;
+        return `PlanePhysic3D::${super.toString()} Level${this.level}`;
     }
-
 }

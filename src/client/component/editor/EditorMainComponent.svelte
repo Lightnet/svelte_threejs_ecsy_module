@@ -2,8 +2,14 @@
   import { onMount, onDestroy, createEventDispatcher} from 'svelte';
   import { generateId } from '../../generateid';
 
-  import ThreejsComponent from '../threejs/Threejs01Component.svelte';
-  import ThreejsNavComponent from '../threejs/ThreejsNavComponent.svelte';
+  //import ThreejsComponent from '../threejs/Threejs01Component.svelte';
+  //import ThreejsNavComponent from '../threejs/ThreejsNavComponent.svelte';
+
+  import EditorClientEngineComponent from '../threejs/EditorClientEngineComponent.svelte';
+  
+  import EditorClientNavComponent from '../threejs/EditorClientNavComponent.svelte';
+
+
   import OutlinerMainComponent from '../outliner/OutlinerMainComponent.svelte';
   import OutlinerNavComponent from '../outliner/OutlinerNavComponent.svelte';
   import ProportiesMainComponent from '../properties/ProportiesMainComponent.svelte';
@@ -105,7 +111,7 @@
     </select>
 
     {#if editortype == "viewport3D"}
-      <ThreejsNavComponent ideditor={idcomponent}/>
+      <EditorClientNavComponent ideditor={idcomponent}/>
     {/if}
     {#if editortype == "outliner"}
       <OutlinerNavComponent  ideditor={idcomponent}/>
@@ -120,7 +126,7 @@
   </div>
   <div id={idcontent}>
     {#if editortype == "viewport3D"}
-      <ThreejsComponent  ideditor={idcomponent}/>
+      <EditorClientEngineComponent ideditor={idcomponent}/>
     {/if}
     {#if editortype == "outliner"}
       <OutlinerMainComponent  ideditor={idcomponent}/>

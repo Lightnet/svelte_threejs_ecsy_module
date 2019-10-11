@@ -20,6 +20,9 @@ export default class GameEngine {
         if (!isServerSide) defaultOpts.clientIDSpace = 1000000;
         this.options = Object.assign(defaultOpts, options);
 
+        //need this check
+        //this.ignorePhysics=true;
+
 
         /**
          * client's player ID, as a string. If running on the client, this is set at runtime by the clientEngine
@@ -88,7 +91,7 @@ export default class GameEngine {
 
     start() {
         this.initWorld();
-        console.log("init world");
+        //console.log("init world");
         // create the default timer
         this.timer = new Timer();
         this.timer.play();

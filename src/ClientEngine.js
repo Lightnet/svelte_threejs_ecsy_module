@@ -93,7 +93,7 @@ class ClientEngine{
             //console.log("client run start RENDERER?")
             //self.gameEngine.start();
             //this.gameEngine.start();
-            console.log(this.options.scheduler);
+            console.log("scheduler: ",this.options.scheduler);
             if (this.options.scheduler === 'fixed') {
                 //console.log("FIXED scheduler");
                 //console.log(this.options.stepPeriod);

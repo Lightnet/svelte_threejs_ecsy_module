@@ -30,9 +30,9 @@ class OimoPhysicsEngine extends PhysicsEngine {
         console.log("Server: ",this.isServer);
         this.objects=[];
         //this.options.dt =10;
-        console.log("STEP TIME:",this.options.dt);
+        //console.log("STEP TIME:",this.options.dt);
         this.options.dt = this.options.dt || (1 / 60);
-        console.log("STEP TIME:",this.options.dt);
+        //console.log("STEP TIME:",this.options.dt);
         //console.log(global.OIMO);
         let world = this.world = new OIMO.World({
         //client stepPeriod 1000/60

@@ -20,10 +20,10 @@ export default class CubePhysic3D extends PhysicalObject3D{
         let scene;
         //let THREE;
         //let camera;
-        console.log("Add Cube");
+        //console.log("Add Cube");
         let game = this.gameEngine;
         let world;
-        console.log(game);
+        //console.log(game);
         //console.log(game.renderer);
         this.Object3D =null;
         var entity = game.entityworld.createEntity();
@@ -90,7 +90,7 @@ export default class CubePhysic3D extends PhysicalObject3D{
     }
 
     toString() {
-        return `Asteroid::${super.toString()} Level${this.level}`;
+        return `CubePhysic3D::${super.toString()} Level${this.level}`;
     }
 
 }

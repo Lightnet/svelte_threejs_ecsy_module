@@ -38,7 +38,7 @@
                 notifier.warning(message);
             }else{
                 notifier.success("Grant Access!");
-                console.log(ack);
+                //console.log(ack);
                 setUser(ack.put);
                 //setSea(ack.sea);
                 onLogin.set(true);

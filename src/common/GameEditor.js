@@ -3,6 +3,7 @@ import PhysicsEngine from "../physics/OimoPhysicsEngine";
 
 import CubePhysic3D from "./CubePhysic3D";
 import PlanePhysic3D from "./PlanePhysic3D";
+import MainCamera3D from "./MainCamera3D";
 
 import ThreeVector from "../serialize/ThreeVector";
 
@@ -17,6 +18,10 @@ export default class Game extends GameEngine {
     constructor(options) {
         super(options);
         this.physicsEngine = new PhysicsEngine({ gameEngine: this });
+
+        //dis/able physics client
+        this.ignorePhysics=true;
+
         //console.log(this.physicsEngine);
         // common code
         this.on('postStep', this.gameLogic.bind(this));
@@ -50,13 +55,11 @@ export default class Game extends GameEngine {
         //serializer.registerClass(YourGameObject);
         serializer.registerClass(CubePhysic3D);
         serializer.registerClass(PlanePhysic3D);
+        serializer.registerClass(MainCamera3D);
     }
 
     gameLogic() {
         //console.log("logic");
-
-
-        
     }
 
     step(isReenact, t, dt, physicsOnly) {
@@ -88,6 +91,7 @@ export default class Game extends GameEngine {
     }
 
     serverSidePlayerDisconnected(ev) {
+        
     }
 
 
@@ -97,13 +101,18 @@ export default class Game extends GameEngine {
     //
     // /////////////////////////////////////////////////////////
     clientSideInit() {
+        //get main camera for setup
+        this.addObjectToWorld(new MainCamera3D(this, {}, { }));
+
+
         //testing add scene objects
         //this.addObjectToWorld(new Paddle(this, null, { playerID: 0, position: new TwoVector(PADDING, 0) }));
-        this.addObjectToWorld(new CubePhysic3D(this, {}, { playerID: 0 ,position: new ThreeVector(0, 100, 0)}));
 
-        this.addObjectToWorld(new PlanePhysic3D(this, {}, { }));
         //CubePhysic3D
-        
+        this.addObjectToWorld(new CubePhysic3D(this, {}, { playerID: 0 ,position: new ThreeVector(0, 100, 0)}));
+        //Ground Plane
+        this.addObjectToWorld(new PlanePhysic3D(this, {}, { }));
+
         //this.controls = new KeyboardControls(this.renderer.clientEngine);
         //this.controls.bindKey('up', 'up', { repeat: true } );
         //this.controls.bindKey('down', 'down', { repeat: true } );
@@ -113,10 +122,12 @@ export default class Game extends GameEngine {
         //console.log("update draw?");
         let cubePhysics = this.world.queryObjects({ instanceType: CubePhysic3D });
         //console.log(cubePhysics);
-        for(let idx in cubePhysics){
+        //https://github.com/MozillaReality/ecsy
+        //comment out for ECSY better update.
+        //for(let idx in cubePhysics){
             //console.log(cubePhysics[idx]);
-            cubePhysics[idx].updateRender();
-        }
+            //cubePhysics[idx].updateRender();
+        //}
 
         //function updateEl(el, obj) {
             //let health = obj.health>0?obj.health:15;
