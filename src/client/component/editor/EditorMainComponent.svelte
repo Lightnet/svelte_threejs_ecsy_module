@@ -21,8 +21,8 @@
   let elcontent;
   let editortypes = [];
 
-  let editortype = "viewport3D";
-  editortype = "texteditor";
+  export let editortype = "viewport3D";
+  //editortype = "texteditor";
 
   function handle_auto_resize(event){
     if(elcontext == null){

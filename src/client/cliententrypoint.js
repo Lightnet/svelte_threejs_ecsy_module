@@ -42,23 +42,11 @@ import App from './App.svelte';
 //import App from './component/threejs/ClientEngine02Component.svelte';
 
 var gun = Gun("http://localhost:8080/gun");
-function UserLogin(){
-	gun.user().auth("test","test",function(ack){
-		console.log(ack);
-	});
-}
-function CreateAccount(){
-	gun.user().create("test","test",function(ack){
-		console.log(ack);
-	});
-}
-//CreateAccount();
-//UserLogin();
 setGun(gun);
 
 const app = new App({
 	target: document.body,
 	props: {
-		name: 'MJS'
+		//name: 'MJS'
 	}
 });

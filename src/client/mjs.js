@@ -52,7 +52,7 @@ export function setUser(data){
     //console.log(data);
     //console.log(onUserName);
     onUserName.set(data.alias);
-    userData = user;
+    //userData = user;
 }
 
 export const onLogin = writable(false);
@@ -200,7 +200,7 @@ function unregister_class(obj){
 
 utils.unregister_class = unregister_class;
 
-/*
+
 export default {
     Main,
     data,
@@ -220,4 +220,3 @@ export default {
     setUser,
     onLogout,
 }
-*/

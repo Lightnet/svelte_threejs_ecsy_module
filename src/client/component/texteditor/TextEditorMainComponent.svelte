@@ -45,8 +45,11 @@
     editorCodeMirror = CodeMirror(document.getElementById(idtextarea), {
       value: "function myScript(){return 100;}\n",
       lineNumbers: true,
+      theme : "3024-night",
       mode:  "javascript"
     });
+
+    //editorCodeMirror.setOption("theme", theme);
     //https://codemirror.net/doc/manual.html#api
     //editorCodeMirror.setSize("100%", "100%");
     //editorCodeMirror.refresh()
