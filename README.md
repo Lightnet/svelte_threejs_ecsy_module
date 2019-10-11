@@ -1,19 +1,27 @@
 # svelte_threejs_ecsy_module
 
 ## Information:
- Build for threejs, ecsy, and svelte as well other packages to be module design.
+ Note this work in progress.
 
- Note this work in progress. Creating the web page module layout to build game and editor.
+ Build for threejs, ecsy, and svelte for modules design. Svelte V3 is to help build component system.
+ ECSY ( Entity Component System framework ) will work toward building server and client in some layout of lance package. 
+ 
+ The database will be used gunjs that work on server and client to create peer to peer.
+ 
+ To develop game and editor in web browser. That is writen in javascript and other packages.
 
- I just creating Game Master tool for to develop game and editor in web browser that is writen in javascript and other packages.
+ Blender 3D modeling layout and logic function and script that is work toward module.
+
+ The project is to develop game master tool to build open world editor that is module desgin and play different type game modes or rules of the world set by game master. As well let friends play with game play.
 
 ## Packages / Libs:
- * ecsy
- * threejs
- * svelte
- * gun
- * gulp
- * polka
+ * ecsy ( Entity Component System framework )
+ * threejs ( javascript )
+ * svelte (html / js / compiler)
+ * gun (data / http / websocket)
+ * gulp (auto build and compiler)
+ * polka (server)
+ * lance (game network)
 
 ## Setup:
  Note this is work in progress.
