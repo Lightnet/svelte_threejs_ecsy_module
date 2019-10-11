@@ -35,5 +35,8 @@
     "sirv": "^0.4.2",
     "socket.io": "^2.3.0",
     "svelte": "^3.12.1"
+  },
+  "devDependencies": {
+    "@beyonk/svelte-notifications": "^2.0.3"
   }
 }

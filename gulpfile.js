@@ -49,6 +49,24 @@ function frontrollup_build(){
     .pipe(gulp.dest('public/'));
 }
 exports.frontrollup_build = frontrollup_build;
+
+function frontrollup_build_physics01(){
+    return gulp.src('src/client/physics01.js')
+    //.pipe(rollup(frontrollupconfig, 'umd'))
+    .pipe(rollup(
+        frontrollupconfig,
+        {
+            format: 'cjs',
+        }
+    ))
+    //.pipe(rollup(require('./rollup.config.js'), 'umd'))
+    .pipe(rename('physics01.js'))
+    .pipe(gulp.dest('public/'));
+}
+exports.frontrollup_build_physics01 = frontrollup_build_physics01;
+
+
+
 //===============================================
 // Backend Server Build
 //===============================================
@@ -108,16 +126,17 @@ function serve(done){
 }
 exports.serve = serve;
 function watch(done) {
-    //gulp.watch(['./app.js','./src/**/*.*'], gulp.series(backend_build));
-    //gulp.watch(['./src/client/**/*.*'], gulp.series( cleanbundle, frontrollup_build, lib_test, refreshbrowser));
+    gulp.watch(['src/client/global.css'], gulp.series( copy_css));
     gulp.watch(['./src/**/*.*'], gulp.series( cleanbundle, frontrollup_build, copy_html));
     gulp.watch(['./src/common/**/*.*'], gulp.series( copy_common));
+    
     return done();
 }
 exports.watch = watch;
 var htmlfiles=[
     'src/client/index.html',
-    'src/client/debugscripteditor.html'
+    'src/client/debugscripteditor.html',
+    'src/client/testphysics.html'
 ]
 function copy_html(){
     return gulp.src(htmlfiles)
@@ -162,7 +181,8 @@ const build = gulp.series(
     watch, 
     serve, 
     copy_common,
-    copy_packagelibs
+    copy_packagelibs,
+    frontrollup_build_physics01
     //browser_sync,
 );
 

@@ -40,6 +40,11 @@
 //import App from './component/threejs/ClientEngineComponent.svelte'; // physics oimo test
 ```
 
+### localhost:8080
+```
+localhost:8080/testphysics.html
+```
+
 ## Link Refs:
  * https://github.com/MozillaReality/ecsy
  * https://svelte.dev/

@@ -1,9 +1,12 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher} from 'svelte';
   import { generateId } from './generateid';
-  import { gun } from './mjs';
+  import { gun, onLogin } from './mjs';
 
   import EditorMainComponent from './component/editor/EditorMainComponent.svelte';
+  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
+
+  import LoginComponent from "./component/access/LoginComponent.svelte";
 
   let idcomponent = "main-" + generateId();
   let elcontent;
@@ -11,6 +14,11 @@
   let username;
   let sceneobjects = [];
   let blogin = false;
+
+  const unsubLogin = onLogin.subscribe(value => {
+		console.log(value);
+		blogin = value;
+	});
 
   function handle_auto_resize(event){
     if(elcontent == null){
@@ -30,7 +38,8 @@
   });
 
   onDestroy(()=>{
-		window.removeEventListener('resize', handle_auto_resize);
+    window.removeEventListener('resize', handle_auto_resize);
+    unsubLogin();
   });
   
   function btnLogin(){
@@ -52,6 +61,11 @@
   {#if blogin}
     <EditorMainComponent></EditorMainComponent>
   {:else}
+    <!--
     <button on:click={btnLogin}> Login </button>
+    -->
+    <LoginComponent></LoginComponent>
   {/if}
 </div>
+
+<NotificationDisplay></NotificationDisplay>

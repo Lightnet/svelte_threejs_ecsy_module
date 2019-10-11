@@ -31,6 +31,6 @@
 
 </style>
 
-<div  id={idcomponent} >
+<div id={idcomponent} >
   PreferencesMainComponent
 </div>

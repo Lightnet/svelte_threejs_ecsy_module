@@ -33,7 +33,6 @@ export var sea = {
     priv:"",
     pub:"",
 }
-export const onLogin = writable(false);
 
 export function setSea(data){
     sea = data;
@@ -55,6 +54,8 @@ export function setUser(data){
     onUserName.set(data.alias);
     userData = user;
 }
+
+export const onLogin = writable(false);
 
 export function onLogout(){
     onUserName.set("Guest");
@@ -113,7 +114,6 @@ context.screens = screens;
 context.scene = {};
 context.view_layer = view_layer;
 context.view_layer.objects = objects;
-
 
 export const screenregion = null;//= writable(null);
 context.screenregion = screenregion;
