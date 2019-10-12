@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "node app.js",
-    "start": "gulp default"
+    "start": "gulp default",
+    "startb": "nodemon --exec babel-node serverpolkab.js"
   },
   "keywords": [
     "gun",
@@ -15,6 +16,9 @@
   "author": "Lightnet",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
     "body-parser": "^1.19.0",
     "codemirror": "^5.49.0",
     "compression": "^1.7.4",
@@ -34,9 +38,11 @@
     "rollup-plugin-svelte": "^5.1.0",
     "sirv": "^0.4.2",
     "socket.io": "^2.3.0",
-    "svelte": "^3.12.1"
+    "svelte": "^3.12.1",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@beyonk/svelte-notifications": "^2.0.3"
   }
 }

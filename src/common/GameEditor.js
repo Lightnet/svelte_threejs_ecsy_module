@@ -60,15 +60,14 @@ export default class Game extends GameEngine {
         //console.log("Register GameObject!");
         //serializer.registerClass(YourGameObject);
         serializer.registerClass(MainCamera3D);
-        //serializer.registerClass(CubePhysic3D);
+        serializer.registerClass(DirectionalLight3D);
+
         serializer.registerClass(PlanePhysic3D);
         serializer.registerClass(BoxPhysic3D);
         serializer.registerClass(SpherePhysic3D);
-        serializer.registerClass(DirectionalLight3D);
+        
         serializer.registerClass(CylinderPhysic3D);
 
-        
-        
     }
 
     gameLogic() {

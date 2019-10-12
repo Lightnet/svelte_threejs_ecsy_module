@@ -27,34 +27,12 @@ export const onUserName = writable("Guest");
 export const onPub = writable("");
 var userData = {};
 
-export var sea = {
-    epriv:"",
-    eqpub:"",
-    priv:"",
-    pub:"",
-}
-
-export function setSea(data){
-    sea = data;
-    onPub.set(data.pub);
-}
-
 export function pair(){
     return sea;
 }
-
-export function getPub(){
-    return sea.pub;
-}
-
 export function setUser(data){
-    //username = user.alias;
-    //console.log(data);
-    //console.log(onUserName);
     onUserName.set(data.alias);
-    //userData = user;
 }
-
 export const onLogin = writable(false);
 
 export function onLogout(){
@@ -200,7 +178,6 @@ function unregister_class(obj){
 
 utils.unregister_class = unregister_class;
 
-
 export default {
     Main,
     data,
@@ -213,8 +190,6 @@ export default {
     gun,
     setGun,
     getGun,
-    setSea,
-    pair,
     onUserName,
     onPub,
     setUser,

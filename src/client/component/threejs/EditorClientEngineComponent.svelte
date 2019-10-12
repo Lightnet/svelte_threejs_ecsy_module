@@ -2,7 +2,6 @@
     import { onMount, onDestroy } from 'svelte';
     //import OIMO from '../../../common/oimo';
     //import '../../../common/oimo';
-    //console.log("test");
     //import {ImprovedNoise} from '../../../common/ImprovedNoise';
     import Renderer from '../../../render/ThreejsRenderer';
     import Game from '../../../common/GameEditor';
@@ -14,6 +13,8 @@
     import SpherePhysic3D from "../../../common/SpherePhysic3D";
 
     import ThreeVector from "../../../serialize/ThreeVector";
+
+    import { gun } from "../../mjs";
 
     export let ideditor;
 
@@ -36,7 +37,7 @@
 
     onMount(function(){
         gameEngine = new Game(options);
-        gameEngine.ignorePhysics=false;
+        gameEngine.ignorePhysics=true;
         //console.log(gameEngine);
         clientEngine = new ClientEngine(gameEngine, options, Renderer);
         //element id viewport > threejsrenderer.js
@@ -55,6 +56,7 @@
     function EditorEvents(e){
         console.log(e);
         if(e.detail.ideditor == ideditor){
+            /*
             if(e.detail.action == "addcube"){
                 let x = getRandomArbitrary(-128, 128);
                 let y = 200;
@@ -81,7 +83,7 @@
                     new CylinderPhysic3D(gameEngine, {}, { playerID: 0 ,position: new ThreeVector(x, y, z)})
                 );
             }
-
+            */
             if(e.detail.action == "togglephysics"){
                 gameEngine.ignorePhysics = !gameEngine.ignorePhysics;
             }
@@ -90,6 +92,42 @@
             }
         }
     }
+    /*
+    function AddShapeComponent(type,params){
+        let obj = {
+            uuid:"",
+            type:type,
+            name:type,
+            position:{
+                x:0,
+                y:0,
+                z:0
+            },
+            rotation:{
+                x:0,
+                y:0,
+                z:0
+            },
+            quaternion:{
+                x:0,
+                y:0,
+                z:0,
+                w:0
+            }
+        }
+        if(type == "Box"){
+            obj.type = "Box";
+        }else if(type == "sphere"){
+            obj.type = "sphere";
+        }else if(type == "Cylinder"){
+            obj.type = "Cylinder";
+        }else{
+            return null;
+        }
+    }
+    */
+
+
 </script>
 <style>
     .topleft{
