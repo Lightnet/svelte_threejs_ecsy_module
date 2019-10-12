@@ -80,9 +80,11 @@
     <div id={idcontent} class="content">
       {#if blogin}
         <!--<EditorMainComponent></EditorMainComponent>-->
+        
         <LayoutLayoutComponent></LayoutLayoutComponent>
       {:else}
         <LoginComponent></LoginComponent>
+        [Work in progress. Quick register that has no save database for map building yet. ]
       {/if}
     </div>
 </div>

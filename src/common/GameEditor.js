@@ -1,9 +1,15 @@
 import GameEngine from "../GameEngine";
 import PhysicsEngine from "../physics/OimoPhysicsEngine";
 
-import CubePhysic3D from "./CubePhysic3D";
-import PlanePhysic3D from "./PlanePhysic3D";
+//import CubePhysic3D from "./CubePhysic3D";
 import MainCamera3D from "./MainCamera3D";
+
+import BoxPhysic3D from "./BoxPhysic3D";
+import SpherePhysic3D from "./SpherePhysic3D";
+import CylinderPhysic3D from "./CylinderPhysic3D";
+import PlanePhysic3D from "./PlanePhysic3D";
+import DirectionalLight3D from "./DirectionalLight3D";
+
 
 import ThreeVector from "../serialize/ThreeVector";
 
@@ -53,9 +59,16 @@ export default class Game extends GameEngine {
         //console.log("=========================================")
         //console.log("Register GameObject!");
         //serializer.registerClass(YourGameObject);
-        serializer.registerClass(CubePhysic3D);
-        serializer.registerClass(PlanePhysic3D);
         serializer.registerClass(MainCamera3D);
+        //serializer.registerClass(CubePhysic3D);
+        serializer.registerClass(PlanePhysic3D);
+        serializer.registerClass(BoxPhysic3D);
+        serializer.registerClass(SpherePhysic3D);
+        serializer.registerClass(DirectionalLight3D);
+        serializer.registerClass(CylinderPhysic3D);
+
+        
+        
     }
 
     gameLogic() {
@@ -109,9 +122,11 @@ export default class Game extends GameEngine {
         //this.addObjectToWorld(new Paddle(this, null, { playerID: 0, position: new TwoVector(PADDING, 0) }));
 
         //CubePhysic3D
-        this.addObjectToWorld(new CubePhysic3D(this, {}, { playerID: 0 ,position: new ThreeVector(0, 100, 0)}));
+        this.addObjectToWorld(new BoxPhysic3D(this, {}, { playerID: 0 ,position: new ThreeVector(0, 100, 0)}));
         //Ground Plane
         this.addObjectToWorld(new PlanePhysic3D(this, {}, { }));
+
+        this.addObjectToWorld(new DirectionalLight3D(this, {}, { }));
 
         //this.controls = new KeyboardControls(this.renderer.clientEngine);
         //this.controls.bindKey('up', 'up', { repeat: true } );
@@ -120,7 +135,7 @@ export default class Game extends GameEngine {
 
     clientSideDraw() {
         //console.log("update draw?");
-        let cubePhysics = this.world.queryObjects({ instanceType: CubePhysic3D });
+        //let cubePhysics = this.world.queryObjects({ instanceType: BoxPhysic3D });
         //console.log(cubePhysics);
         //https://github.com/MozillaReality/ecsy
         //comment out for ECSY better update.

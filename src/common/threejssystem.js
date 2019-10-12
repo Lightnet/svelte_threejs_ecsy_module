@@ -29,11 +29,22 @@ export class Physics3DSystem extends System {
       //object.rotation.x += rotatingSpeed * delta;
       //object.rotation.y += rotatingSpeed * delta * 2;
       //object.rotation.z += rotatingSpeed * delta * 3;
-      object.position.set(
-        physics.position.x,
-        physics.position.y,
-        physics.position.z
-      );
+      //object.rotation.set(
+        //physics.position.x,
+        //physics.position.y,
+        //physics.position.z
+      //);
+
+      object.position.copy(physics.getPosition());
+      object.quaternion.copy(physics.getQuaternion());
+
+
+
+      //object.position.set(
+        //physics.position.x,
+        //physics.position.y,
+        //physics.position.z
+      //);
     }
   }
 }

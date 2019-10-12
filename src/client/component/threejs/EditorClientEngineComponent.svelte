@@ -8,7 +8,11 @@
     import Game from '../../../common/GameEditor';
     import ClientEngine from '../../../ClientEngine';
 
-    import CubePhysic3D from "../../../common/CubePhysic3D";
+    //import CubePhysic3D from "../../../common/CubePhysic3D";
+    import BoxPhysic3D from "../../../common/BoxPhysic3D";
+    import CylinderPhysic3D from "../../../common/CylinderPhysic3D";
+    import SpherePhysic3D from "../../../common/SpherePhysic3D";
+
     import ThreeVector from "../../../serialize/ThreeVector";
 
     export let ideditor;
@@ -56,13 +60,31 @@
                 let y = 200;
                 let z = getRandomArbitrary(-128, 128);
                 clientEngine.gameEngine.addObjectToWorld(
-                    new CubePhysic3D(gameEngine, {}, { playerID: 0 ,position: new ThreeVector(x, y, z)})
+                    new BoxPhysic3D(gameEngine, {}, { playerID: 0 ,position: new ThreeVector(x, y, z)})
                 );
             }
+
+            if(e.detail.action == "addsphere"){
+                let x = getRandomArbitrary(-128, 128);
+                let y = 200;
+                let z = getRandomArbitrary(-128, 128);
+                clientEngine.gameEngine.addObjectToWorld(
+                    new SpherePhysic3D(gameEngine, {}, { playerID: 0 ,position: new ThreeVector(x, y, z)})
+                );
+            }
+
+            if(e.detail.action == "addcylinder"){
+                let x = getRandomArbitrary(-128, 128);
+                let y = 200;
+                let z = getRandomArbitrary(-128, 128);
+                clientEngine.gameEngine.addObjectToWorld(
+                    new CylinderPhysic3D(gameEngine, {}, { playerID: 0 ,position: new ThreeVector(x, y, z)})
+                );
+            }
+
             if(e.detail.action == "togglephysics"){
                 gameEngine.ignorePhysics = !gameEngine.ignorePhysics;
             }
-
             if(e.detail.action == "resetphysics"){
 
             }

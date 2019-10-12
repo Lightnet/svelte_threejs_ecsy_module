@@ -38,6 +38,14 @@
     window.dispatchEvent(new CustomEvent('editorevent',{ detail:{ideditor:ideditor, action:"resetphysics"} }));
   }
 
+  function btnAddSphere(){
+    window.dispatchEvent(new CustomEvent('editorevent',{ detail:{ideditor:ideditor, action:"addsphere"} }));
+  }
+
+  function btnAddCylinder(){
+    window.dispatchEvent(new CustomEvent('editorevent',{ detail:{ideditor:ideditor, action:"addcylinder"} }));
+  }
+
 </script>
 
 <style>
@@ -62,7 +70,11 @@
   <button>Add</button>
   <button>Object</button>
 
-  <button on:click={btnAddCube}>Test Add Box</button>
+  <button on:click={btnAddCube}>Add Box</button>
+  <button on:click={btnAddSphere}>Add Sphere</button>
+  <button on:click={btnAddCylinder}>Add Cylinder</button>
+  
+
   <button on:click={btntogglephysics}>Toggle Physics</button>
   <button on:click={btnresetphysics}> Reset Physics</button>
 </div>
