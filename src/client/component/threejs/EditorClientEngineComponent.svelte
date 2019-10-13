@@ -14,9 +14,18 @@
 
     import ThreeVector from "../../../serialize/ThreeVector";
 
-    import { gun } from "../../mjs";
-
+    import { gun, onMapLevelID } from "../../mjs";
+    
     export let ideditor;
+
+    let mapLevelID = "";
+    const unsubMapLevelID = onMapLevelID.subscribe(value => {
+		//console.log(value);
+		mapLevelID = value;
+    });
+    
+    let sceneobjs = [];
+    let gun_maplevel;
 
     let defaults = {
         //traceLevel: Lib.Trace.TRACE_NONE,
@@ -43,6 +52,17 @@
         //element id viewport > threejsrenderer.js
         clientEngine.start();
         window.addEventListener('editorevent', EditorEvents);
+
+        gun_maplevel = gun.get(mapLevelID).get("scene");
+
+        gun_maplevel.map().open(function(data,key){
+            //console.log("data",data);
+            if(data !=null){
+                checkobjectexist(data);
+            }
+            //console.log("key",key);
+        });
+
     });
 
     function getRandomArbitrary(min, max) {
@@ -51,10 +71,50 @@
 
     onDestroy(function(){
         window.removeEventListener('editorevent', EditorEvents);
+        unsubMapLevelID();
     });
 
+    async function checkobjectexist(obj){
+        let bfound = false;
+        for(let idx in sceneobjs){
+            //console.log(sceneobjs[idx]);
+            //console.log(idx);
+            if(sceneobjs[idx].uuid == obj.uuid){
+                bfound = true;
+                console.log(sceneobjs[idx]);
+                let px = await gun_maplevel.get(obj.uuid).get('position').get('x').then();
+                let py = await gun_maplevel.get(obj.uuid).get('position').get('y').then();
+                let pz = await gun_maplevel.get(obj.uuid).get('position').get('z').then();
+
+                sceneobjs[idx].Object3D.position.set(px,py,pz);
+                sceneobjs[idx].physicsObj.position.set(px,py,pz);
+
+                break;
+            }
+        }
+
+        if(bfound == false)
+        {
+            console.log(obj.uuid);
+            let px = obj.position.x;
+            let py = obj.position.y;
+            let pz = obj.position.z;
+            //console.log(obj.position.x);
+            px = await gun_maplevel.get(obj.uuid).get('position').get('x').then();
+            py = await gun_maplevel.get(obj.uuid).get('position').get('y').then();
+            pz = await gun_maplevel.get(obj.uuid).get('position').get('z').then();
+            
+            let objdata = clientEngine.gameEngine.addObjectToWorld(
+                new BoxPhysic3D(gameEngine, {}, { position: new ThreeVector(px, py, pz)})
+            );
+            objdata.uuid = obj.uuid;
+            //console.log(objdata);
+            sceneobjs.push(objdata);
+        }
+    }
+
     function EditorEvents(e){
-        console.log(e);
+        //console.log(e);
         if(e.detail.ideditor == ideditor){
             /*
             if(e.detail.action == "addcube"){
@@ -139,3 +199,4 @@
 
 <!--<canvas id="canvas" class="topleft"></canvas>-->
 <div id="viewport" class="topleft" style="width:100%;height:100%;"></div>
+

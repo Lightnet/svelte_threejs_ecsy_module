@@ -1,10 +1,17 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher} from 'svelte';
   import { generateId } from '../../generateid';
-  import { gun } from '../../mjs';
-  import uuidvx from 'uuid/v1';
+  import { gun, onMapLevelID } from '../../mjs';
+  //import uuidvx from 'uuid/v1';
+  import uuid from 'uuid-random';
 
   export let ideditor;
+  let mapLevelID = "";
+
+  const unsubMapLevelID = onMapLevelID.subscribe(value => {
+		//console.log(value);
+		mapLevelID = value;
+	});
 
   let idcomponent = "navmenu-" + generateId();
   let elcontext;
@@ -13,6 +20,12 @@
   let objectinteractionmode = "object";
   let user;
   let gun_maplevel;
+
+
+
+  //function uuid(){
+    //return "dsd";
+  //}
 
   onMount(() => {
     objectinteractionmodes.push({label:"Object Mode",context:"objectmode"});
@@ -23,12 +36,13 @@
     if(!user.is){
       console.log("ERROR USER!");
     }
-    gun.get(user.is.pub).get("map")
+    //gun_maplevel = gun.get(mapLevelID).get(user.is.pub).get("map")
+    gun_maplevel = gun.get(mapLevelID).get("scene")
 
   });
 
   onDestroy(()=>{
-		
+		unsubMapLevelID();
   });
 
   function SelectObjectInteractionMode(e){
@@ -40,15 +54,16 @@
     AddShapeComponent("Box",{width:32,height:32,depth:32})
   }
   function btnAddSphere(){
-    AddShapeComponent("Box",{width:32})
+    AddShapeComponent("Sphere",{width:32})
   }
   function btnAddCylinder(){
-    AddShapeComponent("Box",{width:32,height:32,depth:32})
+    AddShapeComponent("Cylinder",{width:32,height:32,depth:32})
   }
 
   function AddShapeComponent(type,params){
+    let genid = uuid();
     let objjson = {
-      uuid:uuidvx(),
+      uuid:genid,
       type:type,
       name:type,
       position:{
@@ -57,28 +72,33 @@
         z:0
       },
       rotation:{
-          x:0,
-          y:0,
-          z:0
+        x:0,
+        y:0,
+        z:0
       },
       quaternion:{
-          x:0,
-          y:0,
-          z:0,
-          w:0
+        x:0,
+        y:0,
+        z:0,
+        w:0
       }
     }
+
     if(type == "Box"){
-        obj.type = "Box";
-        console.log(objjson)
-      }else if(type == "sphere"){
-        obj.type = "sphere";
-      }else if(type == "Cylinder"){
-        obj.type = "Cylinder";
-      }else{
-        return null;
-      }
+      objjson.type = "Box";
+      //console.log(objjson)
+    }else if(type == "sphere"){
+      objjson.type = "sphere";
+    }else if(type == "Cylinder"){
+      objjson.type = "Cylinder";
+    }else{
+      return;
     }
+    //gen rand id
+    gun_maplevel.get(genid).put(objjson);
+
+    console.log(objjson);
+  }
 
   //function btnAddCube(){
     //window.dispatchEvent(new CustomEvent('editorevent',{ detail:{ideditor:ideditor, action:"addcube"} }));

@@ -47,6 +47,14 @@ export function onLogout(){
     onPub.set("");
     onLogin.set(false);
 }
+//===============================================
+// map level
+//===============================================
+//var ranid = Gun.text.random(16);
+//console.log(ranid);
+export const onMapLevelID = writable("wxxR9yR23DWmUuDr");
+
+export const onSelectObj = writable("");
 
 //===============================================
 // access view area

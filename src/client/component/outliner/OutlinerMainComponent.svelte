@@ -2,31 +2,21 @@
   import { onMount, onDestroy, createEventDispatcher} from 'svelte';
   import { generateId } from '../../generateid';
 
-  import Folder from '../base/FolderComponent.svelte';
+	import Folder from '../base/SceneNodeComponent.svelte';
+	import { gun, onMapLevelID } from "../../mjs";
+
+	let mapLevelID = "";
+  const unsubMapLevelID = onMapLevelID.subscribe(value => {
+		//console.log(value);
+		mapLevelID = value;
+	});
+	let gun_maplevel;
 
   let idcomponent = "editor-" + generateId();
-  let elcontext;
-
-  function handle_auto_resize(event){
-    if(elcontext == null){
-      return;
-    }
-    //console.log("resize");
-    let parent = elcontext.parentNode;
-    elcontext.style.height = parent.clientHeight + 'px';
-    elcontext.style.width = parent.clientWidth + 'px';
-  }
-
-  onMount(() => {
-    elcontext = document.getElementById(idcomponent);
-    handle_auto_resize();
-    window.addEventListener('resize', handle_auto_resize);
-  });
-
-  onDestroy(()=>{
-		window.removeEventListener('resize', handle_auto_resize);
-  });
-
+	let elcontext;
+	let root = [];
+	let sceneobjs = [];
+	/*
   let root = [
 		{
 			type: 'folder',
@@ -62,7 +52,58 @@
 		},
 		{ type: 'file', name: 'TODO.md' }
 	];
+	*/
 
+  function handle_auto_resize(event){
+    if(elcontext == null){
+      return;
+    }
+    //console.log("resize");
+    let parent = elcontext.parentNode;
+    elcontext.style.height = parent.clientHeight + 'px';
+    elcontext.style.width = parent.clientWidth + 'px';
+  }
+
+  onMount(() => {
+    elcontext = document.getElementById(idcomponent);
+    handle_auto_resize();
+		window.addEventListener('resize', handle_auto_resize);
+		
+		gun_maplevel = gun.get(mapLevelID).get("scene");
+
+		gun_maplevel.map().open(function(data,key){
+			//console.log("data",data);
+			if(data !=null){
+				checkobjectexist(data);
+			}
+			//console.log("key",key);
+		});
+  });
+
+  onDestroy(()=>{
+		window.removeEventListener('resize', handle_auto_resize);
+		unsubMapLevelID();
+	});
+	
+	function checkobjectexist(obj){
+		let bfound = false;
+		for(let idx in sceneobjs){
+			console.log(sceneobjs[idx]);
+			//console.log(idx);
+			if(sceneobjs[idx].uuid == obj.uuid){
+				bfound = true;
+				break;
+			}
+		}
+
+		if(bfound == false)
+		{
+
+			sceneobjs.push(obj);
+			sceneobjs = sceneobjs;
+		}
+  }
+	
 </script>
 
 <style>
@@ -71,6 +112,6 @@
 
 <div  id={idcomponent} >
   <!--OutlinerMainComponent-->
-  <Folder name="Home" files={root} expanded/>
+  <Folder name="Home" files={sceneobjs} expanded/>
 
 </div>

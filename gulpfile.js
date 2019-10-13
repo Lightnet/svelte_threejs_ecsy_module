@@ -16,6 +16,8 @@ const svelte        = require('rollup-plugin-svelte');
 const resolve       = require('rollup-plugin-node-resolve');
 const commonjs      = require('rollup-plugin-commonjs');
 const rollup        = require('gulp-better-rollup');
+const babel         = require('rollup-plugin-babel')
+const builtins      = require('@erquhart/rollup-plugin-node-builtins')
 //var browserSync     = require('browser-sync').create();
 //const babel       = require('gulp-babel');
 
@@ -25,6 +27,7 @@ const rollup        = require('gulp-better-rollup');
 var frontrollupconfig = {
     //input: 'src/main.js',
     plugins: [
+        
         svelte({
 			dev: !dev,
 			css: css => {
@@ -33,8 +36,37 @@ var frontrollupconfig = {
         }),
         resolve(),
         commonjs(),
+        babel(),
+        
     ]
 }
+
+frontrollupconfig = {
+    //input: 'src/main.js',
+    plugins: [
+        svelte({
+			dev: !dev,
+			css: css => {
+				css.write('public/bundle.css');
+			}
+        }),
+        builtins(),
+        //babel(),
+        resolve({          
+            jsnext: true,        
+            main: true
+        }),
+        //https://www.npmjs.com/package/rollup-plugin-commonjs
+        commonjs({
+            include: ["node_modules/**"],
+            extensions: [ '.js', '.svelte' ],
+        }),
+        
+    ]
+}
+
+
+
 function frontrollup_build(){
     return gulp.src('src/client/cliententrypoint.js')
     //.pipe(rollup(frontrollupconfig, 'umd'))

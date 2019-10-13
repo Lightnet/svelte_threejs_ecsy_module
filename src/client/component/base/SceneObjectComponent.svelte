@@ -1,7 +1,15 @@
 <script>
+	import { onSelectObj } from '../../mjs';
+
   //https://svelte.dev/examples#svelte-self
 	export let name;
 	$: type = name.slice(name.lastIndexOf('.') + 1);
+	export let uuid;
+
+	function ClickSelect(){
+		//console.log("Select!"+uuid);
+		onSelectObj.set(uuid);
+	}
 </script>
 
 <style>
@@ -12,4 +20,4 @@
 	}
 </style>
 
-<span style="background-image: url(icons/{type}.svg)">{name}</span>
+<span style="background-image: url(icons/{type}.svg)" on:click={ClickSelect}>{name}</span>

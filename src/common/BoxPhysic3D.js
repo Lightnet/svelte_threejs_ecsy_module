@@ -51,11 +51,13 @@ export default class BoxPhysic3D extends PhysicalObject3D{
     // on add-to-world, create a physics body
     onAddToWorld() {
         let scene;
-        //let THREE;
+        let world;
         //let camera;
         //console.log("Add Cube");
         let game = this.gameEngine;
-        let world;
+        
+
+        console.log(this.position)
         //console.log(game);
         //console.log(game.renderer);
         this.Object3D =null;
@@ -102,7 +104,7 @@ export default class BoxPhysic3D extends PhysicalObject3D{
 
         this.physicsObj = world.add({type:'box', size:[w,h,d], pos:[x,y,z], move:true, config:config, name:'box'})
         entity.addComponent(Physics3D,{object: this.physicsObj});
-        console.log(this.physicsObj);
+        //console.log(this.physicsObj);
         //if(this.Object3D !=null){
             //this.Object3D.position.set(this.physicsObj.position.x,this.physicsObj.position.y,this.physicsObj.position.x);
         //}
