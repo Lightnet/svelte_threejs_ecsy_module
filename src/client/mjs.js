@@ -55,6 +55,7 @@ export function onLogout(){
 export const onMapLevelID = writable("wxxR9yR23DWmUuDr");
 
 export const onSelectObj = writable("");
+export const onIgnorePhysics = writable(false);//ignorePhysics
 
 //===============================================
 // access view area

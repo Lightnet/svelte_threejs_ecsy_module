@@ -14,7 +14,7 @@
 
     import ThreeVector from "../../../serialize/ThreeVector";
 
-    import { gun, onMapLevelID } from "../../mjs";
+    import { gun, onMapLevelID, onIgnorePhysics} from "../../mjs";
     
     export let ideditor;
 
@@ -23,6 +23,13 @@
 		//console.log(value);
 		mapLevelID = value;
     });
+    let IgnorePhysics = true;
+    const unsubIgnorePhysics = onIgnorePhysics.subscribe(value => {
+        //console.log(value);
+        IgnorePhysics = value;
+    });
+
+
     
     let sceneobjs = [];
     let gun_maplevel;
@@ -47,6 +54,8 @@
     onMount(function(){
         gameEngine = new Game(options);
         gameEngine.ignorePhysics=true;
+
+
         //console.log(gameEngine);
         clientEngine = new ClientEngine(gameEngine, options, Renderer);
         //element id viewport > threejsrenderer.js
@@ -90,11 +99,19 @@
                 let px = await gun_maplevel.get(obj.uuid).get('position').get('x').then();
                 let py = await gun_maplevel.get(obj.uuid).get('position').get('y').then();
                 let pz = await gun_maplevel.get(obj.uuid).get('position').get('z').then();
+                
+                if(sceneobjs[idx].physicsObj !=null){
+                    sceneobjs[idx].physicsObj.position.x = px;//need to turn off entiry sync
+                    sceneobjs[idx].physicsObj.position.y = py;
+                    sceneobjs[idx].physicsObj.position.z = pz;
+                    //sceneobjs[idx].physicsObj.setPosition({x:px, y:py, z:pz});
+                    //sceneobjs[idx].physicsObj.setPosition([px,py,pz]);
+                    //sceneobjs[idx].physicsObj.setPosition(px,py,pz);
+                    //sceneobjs[idx].physicsObj.position.z = pz;
+                }
 
                 sceneobjs[idx].Object3D.position.set(px,py,pz);
-                //sceneobjs[idx].physicsObj.position.x = px;//need to turn off entiry sync
-                //sceneobjs[idx].physicsObj.position.y = py;
-                //sceneobjs[idx].physicsObj.position.z = pz;
+                
                 console.log("UDPATE OBJ SCENE");
                 break;
             }
@@ -153,6 +170,7 @@
             */
             if(e.detail.action == "togglephysics"){
                 gameEngine.ignorePhysics = !gameEngine.ignorePhysics;
+                onIgnorePhysics.set(gameEngine.ignorePhysics);
             }
             if(e.detail.action == "resetphysics"){
 

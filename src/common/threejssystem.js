@@ -2,6 +2,10 @@
 
 import { System } from "ecsy";
 
+import { gun, onIgnorePhysics } from "../client/mjs";
+//var IgnorePhysics = false;
+//const unsubIgnorePhysics 
+
 import {
   Object3D,
   Physics3D,
@@ -17,6 +21,16 @@ import {
 } from "./threejscomponent.js";
 
 export class Physics3DSystem extends System {
+  constructor(world, attributes){
+    super(world, attributes);
+    this.IgnorePhysics = false;
+    let self = this;
+    onIgnorePhysics.subscribe(value => {
+      console.log("TEST ENABLE:",value);
+      self.IgnorePhysics = value;
+    });
+
+  }
   execute(delta) {
     let entities = this.queries.entities.results;
     for (let i = 0; i < entities.length; i++) {
@@ -29,22 +43,11 @@ export class Physics3DSystem extends System {
       //object.rotation.x += rotatingSpeed * delta;
       //object.rotation.y += rotatingSpeed * delta * 2;
       //object.rotation.z += rotatingSpeed * delta * 3;
-      //object.rotation.set(
-        //physics.position.x,
-        //physics.position.y,
-        //physics.position.z
-      //);
-
-      object.position.copy(physics.getPosition());
-      object.quaternion.copy(physics.getQuaternion());
-
-
-
-      //object.position.set(
-        //physics.position.x,
-        //physics.position.y,
-        //physics.position.z
-      //);
+      //console.log(physics);
+      if(!this.IgnorePhysics){
+        object.position.copy(physics.getPosition());
+        object.quaternion.copy(physics.getQuaternion());
+      }
     }
   }
 }
