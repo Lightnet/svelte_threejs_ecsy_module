@@ -6,6 +6,9 @@
   let idcomponent = "editor-" + generateId();
   let elcontext;
   let selectObj = "";
+  let px = 0;
+  let py = 0;
+  let pz = 0;
 
   let mapLevelID = "";
   const unsubMapLevelID = onMapLevelID.subscribe(value => {
@@ -16,8 +19,17 @@
 
   const unsubOnSelectObj = onSelectObj.subscribe(value => {
 		console.log(value);
-		selectObj = value;
-	});
+    selectObj = value;
+    updateObjectData();
+  });
+  
+  async function updateObjectData(){
+    if(selectObj != ""){
+      px = await gun_maplevel.get(selectObj).get('position').get('x').then();
+      py = await gun_maplevel.get(selectObj).get('position').get('y').then();
+      pz = await gun_maplevel.get(selectObj).get('position').get('z').then();
+    }
+  }
 
   function handle_auto_resize(event){
     if(elcontext == null){
@@ -51,22 +63,23 @@
     unsubOnSelectObj();
     unsubMapLevelID();
   });
-  let px = 0;
-  let py = 0;
-  let pz = 0;
+  
   function onXChange(){
     console.log("xx");
     console.log(px)
     if(selectObj != ""){
-      gun_maplevel.get(selectObj).get('position').get('x').put(px);
-      gun_maplevel.get(selectObj).get('position').get('y').put(py);
-      gun_maplevel.get(selectObj).get('position').get('z').put(pz);
+      //gun_maplevel.get(selectObj).get('position').get('x').put(px);
+      //gun_maplevel.get(selectObj).get('position').get('y').put(py);
+      //gun_maplevel.get(selectObj).get('position').get('z').put(pz);
+
+      gun_maplevel.get(selectObj).put({position:{x:px, y:py, z:pz}});
+
 
       //gun_maplevel.get(selectObj).get('position').put({x:px,y:py,z:pz});
       //gun_maplevel.get(selectObj).get('position').put({x:px});
       //gun_maplevel.get(selectObj).get('position').put({x:py});
       //gun_maplevel.get(selectObj).get('position').put({x:pz});
-      console.log("update?");
+      console.log("USER INPUT UPDATE?");
     }
     
   }

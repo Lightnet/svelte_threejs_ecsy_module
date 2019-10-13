@@ -55,12 +55,17 @@
 
         gun_maplevel = gun.get(mapLevelID).get("scene");
 
-        gun_maplevel.map().open(function(data,key){
-            //console.log("data",data);
+        gun_maplevel.map(function(data,key){
+            console.log("data",data);
             if(data !=null){
                 checkobjectexist(data);
             }
-            //console.log("key",key);
+            console.log("key",key);
+        });
+
+        gun_maplevel.on(function(data,key){
+            console.log("on data",data);
+            console.log("on key",key);
         });
 
     });
@@ -87,15 +92,17 @@
                 let pz = await gun_maplevel.get(obj.uuid).get('position').get('z').then();
 
                 sceneobjs[idx].Object3D.position.set(px,py,pz);
-                sceneobjs[idx].physicsObj.position.set(px,py,pz);
-
+                //sceneobjs[idx].physicsObj.position.x = px;//need to turn off entiry sync
+                //sceneobjs[idx].physicsObj.position.y = py;
+                //sceneobjs[idx].physicsObj.position.z = pz;
+                console.log("UDPATE OBJ SCENE");
                 break;
             }
         }
 
         if(bfound == false)
         {
-            console.log(obj.uuid);
+            //console.log(obj.uuid);
             let px = obj.position.x;
             let py = obj.position.y;
             let pz = obj.position.z;

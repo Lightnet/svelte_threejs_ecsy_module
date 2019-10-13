@@ -96,8 +96,7 @@
     }
     //gen rand id
     gun_maplevel.get(genid).put(objjson);
-
-    console.log(objjson);
+    //console.log(objjson);
   }
 
   //function btnAddCube(){

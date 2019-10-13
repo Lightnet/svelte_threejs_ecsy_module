@@ -102,8 +102,9 @@ export default class BoxPhysic3D extends PhysicalObject3D{
         let d = 32;
         //console.log(this.position);
 
-        this.physicsObj = world.add({type:'box', size:[w,h,d], pos:[x,y,z], move:true, config:config, name:'box'})
-        entity.addComponent(Physics3D,{object: this.physicsObj});
+        //this.physicsObj = world.add({type:'box', size:[w,h,d], pos:[x,y,z], move:true, config:config, name:'box'})
+        //entity.addComponent(Physics3D,{object: this.physicsObj});
+
         //console.log(this.physicsObj);
         //if(this.Object3D !=null){
             //this.Object3D.position.set(this.physicsObj.position.x,this.physicsObj.position.y,this.physicsObj.position.x);

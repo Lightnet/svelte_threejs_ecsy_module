@@ -71,7 +71,7 @@
 		
 		gun_maplevel = gun.get(mapLevelID).get("scene");
 
-		gun_maplevel.map().open(function(data,key){
+		gun_maplevel.map(function(data,key){
 			//console.log("data",data);
 			if(data !=null){
 				checkobjectexist(data);
@@ -112,6 +112,6 @@
 
 <div  id={idcomponent} >
   <!--OutlinerMainComponent-->
-  <Folder name="Home" files={sceneobjs} expanded/>
+  <Folder name="Scene" files={sceneobjs} expanded/>
 
 </div>
