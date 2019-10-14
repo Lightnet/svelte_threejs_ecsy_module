@@ -3,13 +3,13 @@ import PhysicsEngine from "../physics/OimoPhysicsEngine";
 
 //import CubePhysic3D from "./CubePhysic3D";
 import MainCamera3D from "./MainCamera3D";
+import DirectionalLight3D from "./DirectionalLight3D";
 
 import BoxPhysic3D from "./BoxPhysic3D";
 import SpherePhysic3D from "./SpherePhysic3D";
-import CylinderPhysic3D from "./CylinderPhysic3D";
 import PlanePhysic3D from "./PlanePhysic3D";
-import DirectionalLight3D from "./DirectionalLight3D";
-
+import CylinderPhysic3D from "./CylinderPhysic3D";
+import CapsulePhysic3D from "./CapsulePhysic3D";
 
 import ThreeVector from "../serialize/ThreeVector";
 
@@ -67,7 +67,9 @@ export default class Game extends GameEngine {
         serializer.registerClass(SpherePhysic3D);
         
         serializer.registerClass(CylinderPhysic3D);
+        serializer.registerClass(CapsulePhysic3D);
 
+        
     }
 
     gameLogic() {

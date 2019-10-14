@@ -23,6 +23,13 @@
  * polka (server)
  * lance (game network)
 
+# Features:
+ * Simple box, sphere, cylinder to update/edit position.
+ * Capsules size is not working yet.
+ * Toggle physics bug.
+ * Reset physics not added.
+ * Work in progress editor
+
 ## Setup:
  Note this is work in progress.
 

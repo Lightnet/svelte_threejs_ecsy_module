@@ -14,9 +14,13 @@
 
 <style>
 	span {
+		
 		padding: 0 0 0 1.5em;
 		background: 0 0.1em no-repeat;
 		background-size: 1em 1em;
+		
+		/* https://developer.mozilla.org/en-US/docs/Web/CSS/cursor */
+		cursor:pointer;
 	}
 </style>
 

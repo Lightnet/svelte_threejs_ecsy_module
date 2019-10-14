@@ -1,6 +1,12 @@
 <script>
   //https://svelte.dev/examples#svelte-self
 	import File from './SceneObjectComponent.svelte';
+	import { onSelectObj } from '../../mjs';
+	let selectObj = "";
+	const unsubOnSelectObj = onSelectObj.subscribe(value => {
+		console.log("list",value);
+    selectObj = value;
+  });
 
 	export let expanded = false;
 	export let name;
@@ -34,6 +40,24 @@
 	li {
 		padding: 0.2em 0;
 	}
+
+	li:nth-child(odd) {
+		background-color: darkgrey;
+	}
+
+	li:nth-child(even) {
+		background-color: dimgrey;
+	}
+	/*
+	li:active {
+		background-color: dodgerblue;
+	}
+	*/
+
+	.selectobj {
+		background-color: dodgerblue !important;
+	}
+
 </style>
 
 <span class:expanded on:click={toggle}>{name}</span>
@@ -41,7 +65,7 @@
 {#if expanded}
 	<ul>
 		{#each files as file}
-			<li>
+			<li class="{selectObj === file.uuid ? 'selectobj' : ''}">
 				{#if file.type === 'folder'}
 					<svelte:self {...file}/>
 				{:else}

@@ -15,6 +15,37 @@ export default class Cylinder3D extends PhysicalObject3D{
         //this.position = new ThreeVector(0, 0, 0);
     }
 
+    basicTexture(n){
+        var canvas = document.createElement( 'canvas' );
+        canvas.width = canvas.height = 64;
+        var ctx = canvas.getContext( '2d' );
+        var colors = [];
+        if(n===0){ // sphere
+            colors[0] = "#58AA80";
+            colors[1] = "#58FFAA";
+        }
+        if(n===1){ // sphere sleep
+            colors[0] = "#383838";
+            colors[1] = "#38AA80";
+        }
+        if(n===2){ // box
+            colors[0] = "#AA8058";
+            colors[1] = "#FFAA58";
+        }
+        if(n===3){ // box sleep
+            colors[0] = "#383838";
+            colors[1] = "#AA8038";
+        }
+        ctx.fillStyle = colors[0];
+        ctx.fillRect(0, 0, 64, 64);
+        ctx.fillStyle = colors[1];
+        ctx.fillRect(0, 0, 32, 32);
+        ctx.fillRect(32, 32, 32, 32);
+        var tx = new THREE.Texture(canvas);
+        tx.needsUpdate = true;
+        return tx;
+    }
+
     // on add-to-world, create a physics body
     onAddToWorld() {
         let scene;
@@ -23,10 +54,14 @@ export default class Cylinder3D extends PhysicalObject3D{
         this.Object3D =null;
         var entity = game.entityworld.createEntity();
         if(game.renderer !=null){
+            var materialType = 'MeshPhongMaterial';
+
             scene = game.renderer.scene;
             var geometry = new THREE.CylinderBufferGeometry( 1,1,1,12,1 );
-            var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-            var cube = new THREE.Mesh( geometry, material );
+            //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            var matBox = new THREE[materialType]( {  map: this.basicTexture(0), name:'sphere' } );
+            //var cube = new THREE.Mesh( geometry, material );
+            var cube = new THREE.Mesh( geometry, matBox );
             //console.log(this.position);
             cube.position.set(this.position.x,this.position.y,this.position.z);
             cube.scale.set( 32, 32, 32 );
@@ -51,6 +86,7 @@ export default class Cylinder3D extends PhysicalObject3D{
         let h = 32;
         this.physicsObj = world.add({type:'cylinder', size:[d,h,d], pos:[x,y,z], move:true, config:config, name:'cylinder'})
         entity.addComponent(Physics3D,{object: this.physicsObj});
+        this.entity = entity;
     }
 
     updateRender(){

@@ -1,17 +1,24 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher} from 'svelte';
   import { generateId } from '../../generateid';
-  import { gun, onMapLevelID } from '../../mjs';
+  import { gun, onMapLevelID, onIgnorePhysics } from '../../mjs';
   //import uuidvx from 'uuid/v1';
   import uuid from 'uuid-random';
 
   export let ideditor;
-  let mapLevelID = "";
 
+  let mapLevelID = "";
   const unsubMapLevelID = onMapLevelID.subscribe(value => {
 		//console.log(value);
 		mapLevelID = value;
-	});
+  });
+  let IgnorePhysics = true;
+  const unsubIgnorePhysics = onIgnorePhysics.subscribe(value => {
+    //console.log(value);
+    IgnorePhysics = value;
+    IgnorePhysics = IgnorePhysics;
+  });
+
 
   let idcomponent = "navmenu-" + generateId();
   let elcontext;
@@ -21,11 +28,6 @@
   let user;
   let gun_maplevel;
 
-
-
-  //function uuid(){
-    //return "dsd";
-  //}
 
   onMount(() => {
     objectinteractionmodes.push({label:"Object Mode",context:"objectmode"});
@@ -59,6 +61,12 @@
   function btnAddCylinder(){
     AddShapeComponent("Cylinder",{width:32,height:32,depth:32})
   }
+  function btnAddPlane(){
+    AddShapeComponent("Plane",{width:32,height:32,depth:32})
+  }
+  function btnAddCapsule(){
+    AddShapeComponent("Capsule",{width:32,height:32,depth:32})
+  }
 
   function AddShapeComponent(type,params){
     let genid = uuid();
@@ -87,10 +95,14 @@
     if(type == "Box"){
       objjson.type = "Box";
       //console.log(objjson)
-    }else if(type == "sphere"){
-      objjson.type = "sphere";
+    }else if(type == "Sphere"){
+      objjson.type = "Sphere";
     }else if(type == "Cylinder"){
       objjson.type = "Cylinder";
+    }else if(type == "Plane"){
+      objjson.type = "Plane";
+    }else if(type == "Capsule"){
+      objjson.type = "Capsule";
     }else{
       return;
     }
@@ -144,8 +156,10 @@
   <button on:click={btnAddBox}>Add Box</button>
   <button on:click={btnAddSphere}>Add Sphere</button>
   <button on:click={btnAddCylinder}>Add Cylinder</button>
+  <button on:click={btnAddPlane}>Add Plane</button>
+  <button on:click={btnAddCapsule}>Add Capsules</button>
   
 
-  <button on:click={btntogglephysics}>Toggle Physics</button>
+  <button on:click={btntogglephysics}> Physics {!IgnorePhysics == true ? true : false }</button>
   <button on:click={btnresetphysics}> Reset Physics</button>
 </div>

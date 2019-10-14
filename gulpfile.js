@@ -53,19 +53,18 @@ frontrollupconfig = {
         builtins(),
         //babel(),
         resolve({          
-            jsnext: true,        
-            main: true
+            //jsnext: true,       
+            //main: true
+            //https://github.com/rollup/rollup-plugin-node-resolve
+            mainFields: ['module', 'main'], // Default: ['module', 'main']
         }),
         //https://www.npmjs.com/package/rollup-plugin-commonjs
         commonjs({
             include: ["node_modules/**"],
             extensions: [ '.js', '.svelte' ],
         }),
-        
     ]
 }
-
-
 
 function frontrollup_build(){
     return gulp.src('src/client/cliententrypoint.js')
@@ -81,7 +80,6 @@ function frontrollup_build(){
     .pipe(gulp.dest('public/'));
 }
 exports.frontrollup_build = frontrollup_build;
-
 
 function frontrollup_build_physics01(){
     return gulp.src('src/client/physics01.js')

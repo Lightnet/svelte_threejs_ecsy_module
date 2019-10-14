@@ -1,21 +1,17 @@
 import PhysicalObject3D from "../serialize/PhysicalObject3D";
 import ThreeVector from "../serialize/ThreeVector";
-
 import {Physics3D, Object3D} from "./threejscomponent";
-//import {Physics3D, Object3D} from "./threejscomponent";
 
-//let game = null;
-//let p2 = null;
-
-export default class BoxPhysic3D extends PhysicalObject3D{
+export default class CapsulesPhysic3D extends PhysicalObject3D{
 
     constructor(gameEngine, options, props) {
         super(gameEngine, options, props);
-        this.class = BoxPhysic3D;
+        this.class = CapsulesPhysic3D;
         //this.position = new ThreeVector(0, 0, 0);
-        //this.materialType = 'MeshPhongMaterial';
+        this.types = [ 'sphere', 'sphere','sphere'];
+        this.sizes;
+        this.positions;
     }
-    
 
     basicTexture(n){
         var canvas = document.createElement( 'canvas' );
@@ -48,41 +44,57 @@ export default class BoxPhysic3D extends PhysicalObject3D{
         return tx;
     }
 
+    createcapsule(radius, height, SRadius, SHeight){
+        var sRadius = SRadius || 20;
+        var sHeight = SHeight || 10;
+        var height = height || 22;
+        var radius = radius || 10;
+        var o0 = Math.PI*2;
+        var o1 = Math.PI/2;
+        this.sizes = [ radius,radius,radius, radius,radius,radius, radius,radius,radius ];
+        this.positions = [0,0,0,   0,height*0.5,0, 0,height,0];
+        var g = new THREE.Geometry();
+        var m0 = new THREE.CylinderGeometry(radius, radius, height, sRadius, 1, true);
+        var m1 = new THREE.SphereGeometry(radius, sRadius, sHeight, 0, o0, 0, o1);
+        var m2 = new THREE.SphereGeometry(radius, sRadius, sHeight, 0, o0, o1, o1);
+        var mtx0 = new THREE.Matrix4().makeTranslation(0, 0,0);
+        var mtx1 = new THREE.Matrix4().makeTranslation(0, height*0.5,0);
+        var mtx2 = new THREE.Matrix4().makeTranslation(0, -height*0.5,0);
+        g.merge( m0, mtx0);
+        g.merge( m1, mtx1);
+        g.merge( m2, mtx2);
+        let capsuleGeometry = new THREE.BufferGeometry();
+        capsuleGeometry.fromGeometry(g);
+        return capsuleGeometry;
+    }
+
     // on add-to-world, create a physics body
     onAddToWorld() {
         let scene;
-        let world;
-        //let camera;
-        //console.log("Add Cube");
         let game = this.gameEngine;
-        
-
-        console.log(this.position)
-        //console.log(game);
-        //console.log(game.renderer);
+        let world;
         this.Object3D =null;
         var entity = game.entityworld.createEntity();
-
         if(game.renderer !=null){
-            //THREE = game.renderer.THREE;
-            scene = game.renderer.scene;
-            //camera = game.renderer.camera;
             var materialType = 'MeshPhongMaterial';
 
-            var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-            var matBox = new THREE[materialType]( {  map: this.basicTexture(2), name:'box' } );
-            var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            scene = game.renderer.scene;
+            var geometry = new THREE.CylinderBufferGeometry( 1,1,1,12,1 );
+            //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            var matBox = new THREE[materialType]( {  map: this.basicTexture(0), name:'sphere' } );
             //var cube = new THREE.Mesh( geometry, material );
-            var cube = new THREE.Mesh( geometry, matBox );
+            //var cube = new THREE.Mesh( geometry, matBox );
+            
+            let capsuleGeometry = this.createcapsule(1.25,2.75,4,4);
+
+            var cube = new THREE.Mesh( capsuleGeometry, matBox );
             //console.log(this.position);
             cube.position.set(this.position.x,this.position.y,this.position.z);
             cube.scale.set( 32, 32, 32 );
             this.Object3D = cube;
             scene.add( cube );
             entity.addComponent(Object3D,{object: cube});
-            //Camera
-            //camera.position.z = 200;
-            //camera.position.y = 100;
+
         }
         var all = 0xffffffff;
         var config = [
@@ -96,41 +108,38 @@ export default class BoxPhysic3D extends PhysicalObject3D{
         let x = this.position.x;
         let y = this.position.y;
         let z = this.position.z;
-
-        let w = 32;
-        let h = 32;
         let d = 32;
-        //console.log(this.position);
-
-        this.physicsObj = world.add({type:'box', size:[w,h,d], pos:[x,y,z], move:true, config:config, name:'box'})
+        let h = 32;
+        //https://github.com/lo-th/Oimo.js/blob/gh-pages/examples/test_compound2.html
+        //this.physicsObj = world.add({type:'cylinder', size:[d,h,d], pos:[x,y,z], move:true, config:config, name:'cylinder'})
+        this.physicsObj = world.add({
+            type:this.types,
+            size:this.sizes,
+            pos:[x,y,z],
+            posShape:this.positions,
+            move:true,
+            config:config,
+            name:'cylinder'
+        })
         entity.addComponent(Physics3D,{object: this.physicsObj});
-
-        //console.log(this.physicsObj);
-        //if(this.Object3D !=null){
-            //this.Object3D.position.set(this.physicsObj.position.x,this.physicsObj.position.y,this.physicsObj.position.x);
-        //}
-        //console.log(game.physicsEngine.OIMO);
         this.entity = entity;
     }
 
     updateRender(){
-        if(this.Object3D !=null){
+        //if(this.Object3D !=null){
             //this.Object3D.position.set(this.physicsObj.position.x,this.physicsObj.position.y,this.physicsObj.position.x);
-        }
+        //}
     }
 
     // on remove-from-world, remove the physics body
     onRemoveFromWorld() {
         //game.physicsEngine.world.removeBody(this.physicsObj);
     }
-
     syncTo(other) {
         super.syncTo(other);
         console.log("syncTo");
     }
-
     toString() {
-        return `BoxPhysic3D::${super.toString()} Level${this.level}`;
+        return `CapsulesPhysic3D::${super.toString()} Level${this.level}`;
     }
-
 }

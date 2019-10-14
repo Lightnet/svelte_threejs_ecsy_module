@@ -11,6 +11,7 @@
     import BoxPhysic3D from "../../../common/BoxPhysic3D";
     import CylinderPhysic3D from "../../../common/CylinderPhysic3D";
     import SpherePhysic3D from "../../../common/SpherePhysic3D";
+    import CapsulePhysic3D from "../../../common/CapsulePhysic3D";
 
     import ThreeVector from "../../../serialize/ThreeVector";
 
@@ -29,8 +30,6 @@
         IgnorePhysics = value;
     });
 
-
-    
     let sceneobjs = [];
     let gun_maplevel;
 
@@ -95,7 +94,7 @@
             //console.log(idx);
             if(sceneobjs[idx].uuid == obj.uuid){
                 bfound = true;
-                console.log(sceneobjs[idx]);
+                //console.log(sceneobjs[idx]);
                 let px = await gun_maplevel.get(obj.uuid).get('position').get('x').then();
                 let py = await gun_maplevel.get(obj.uuid).get('position').get('y').then();
                 let pz = await gun_maplevel.get(obj.uuid).get('position').get('z').then();
@@ -127,13 +126,38 @@
             px = await gun_maplevel.get(obj.uuid).get('position').get('x').then();
             py = await gun_maplevel.get(obj.uuid).get('position').get('y').then();
             pz = await gun_maplevel.get(obj.uuid).get('position').get('z').then();
-            
-            let objdata = clientEngine.gameEngine.addObjectToWorld(
-                new BoxPhysic3D(gameEngine, {}, { position: new ThreeVector(px, py, pz)})
-            );
-            objdata.uuid = obj.uuid;
-            //console.log(objdata);
-            sceneobjs.push(objdata);
+            let objdata
+            if(obj.type == "Box" ){
+                objdata = clientEngine.gameEngine.addObjectToWorld(
+                    new BoxPhysic3D(gameEngine, {}, { position: new ThreeVector(px, py, pz)})
+                );
+            }
+
+            if(obj.type == "Sphere" ){
+                objdata = clientEngine.gameEngine.addObjectToWorld(
+                    new SpherePhysic3D(gameEngine, {}, { position: new ThreeVector(px, py, pz)})
+                );
+            }
+
+            if(obj.type == "Cylinder" ){
+                objdata = clientEngine.gameEngine.addObjectToWorld(
+                    new CylinderPhysic3D(gameEngine, {}, { position: new ThreeVector(px, py, pz)})
+                );
+            }
+
+            if(obj.type == "Capsule" ){
+                console.log("add Capsule")
+                objdata = clientEngine.gameEngine.addObjectToWorld(
+                    new CapsulePhysic3D(gameEngine, {}, { position: new ThreeVector(px, py, pz)})
+                );
+            }
+
+
+            if(objdata !=null){
+                objdata.uuid = obj.uuid;
+                //console.log(objdata);
+                sceneobjs.push(objdata);
+            }
         }
     }
 
@@ -177,42 +201,6 @@
             }
         }
     }
-    /*
-    function AddShapeComponent(type,params){
-        let obj = {
-            uuid:"",
-            type:type,
-            name:type,
-            position:{
-                x:0,
-                y:0,
-                z:0
-            },
-            rotation:{
-                x:0,
-                y:0,
-                z:0
-            },
-            quaternion:{
-                x:0,
-                y:0,
-                z:0,
-                w:0
-            }
-        }
-        if(type == "Box"){
-            obj.type = "Box";
-        }else if(type == "sphere"){
-            obj.type = "sphere";
-        }else if(type == "Cylinder"){
-            obj.type = "Cylinder";
-        }else{
-            return null;
-        }
-    }
-    */
-
-
 </script>
 <style>
     .topleft{

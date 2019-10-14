@@ -51,6 +51,8 @@ export default class PlanePhysic3D extends PhysicalObject3D{
         world = game.physicsEngine.world;
         this.physicsObj = world.add({size:[512, 5, 512], pos:[0,0,0], density:1 });
         //console.log(this.physicsObj);
+
+        //this.entity = entity;
     }
 
     // on remove-from-world, remove the physics body

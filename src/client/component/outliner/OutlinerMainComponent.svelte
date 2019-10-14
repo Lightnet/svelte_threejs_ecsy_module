@@ -88,7 +88,7 @@
 	function checkobjectexist(obj){
 		let bfound = false;
 		for(let idx in sceneobjs){
-			console.log(sceneobjs[idx]);
+			//console.log(sceneobjs[idx]);
 			//console.log(idx);
 			if(sceneobjs[idx].uuid == obj.uuid){
 				bfound = true;
@@ -107,10 +107,12 @@
 </script>
 
 <style>
-
+	.outlinercontent{
+		overflow-y: scroll;
+	}
 </style>
 
-<div  id={idcomponent} >
+<div id={idcomponent} class="outlinercontent">
   <!--OutlinerMainComponent-->
   <Folder name="Scene" files={sceneobjs} expanded/>
 

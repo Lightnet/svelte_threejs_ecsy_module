@@ -66,7 +66,7 @@ export default class SpherePhysic3D extends PhysicalObject3D{
             //camera = game.renderer.camera;
             var geometry = new THREE.SphereBufferGeometry(  1, 24, 18  );
             //var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-            var matBox = new THREE[materialType]( {  map: this.basicTexture(0), name:'box' } );
+            var matBox = new THREE[materialType]( {  map: this.basicTexture(0), name:'sphere' } );
             var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
             //var cube = new THREE.Mesh( geometry, material );
             var cube = new THREE.Mesh( geometry, matBox );
@@ -103,6 +103,7 @@ export default class SpherePhysic3D extends PhysicalObject3D{
             //this.Object3D.position.set(this.physicsObj.position.x,this.physicsObj.position.y,this.physicsObj.position.x);
         //}
         //console.log(game.physicsEngine.OIMO);
+        this.entity = entity;
     }
 
     updateRender(){
