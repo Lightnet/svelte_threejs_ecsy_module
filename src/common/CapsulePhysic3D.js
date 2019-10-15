@@ -79,18 +79,19 @@ export default class CapsulesPhysic3D extends PhysicalObject3D{
             var materialType = 'MeshPhongMaterial';
 
             scene = game.renderer.scene;
-            var geometry = new THREE.CylinderBufferGeometry( 1,1,1,12,1 );
+            //var geometry = new THREE.CylinderBufferGeometry( 1,1,1,12,1 );
             //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
             var matBox = new THREE[materialType]( {  map: this.basicTexture(0), name:'sphere' } );
             //var cube = new THREE.Mesh( geometry, material );
             //var cube = new THREE.Mesh( geometry, matBox );
             
-            let capsuleGeometry = this.createcapsule(1.25,2.75,4,4);
+            //let capsuleGeometry = this.createcapsule(1.25,2.75,4,4);
+            let capsuleGeometry = this.createcapsule(10,22,20,10);
 
             var cube = new THREE.Mesh( capsuleGeometry, matBox );
             //console.log(this.position);
             cube.position.set(this.position.x,this.position.y,this.position.z);
-            cube.scale.set( 32, 32, 32 );
+            //cube.scale.set( 32, 32, 32 );
             this.Object3D = cube;
             scene.add( cube );
             entity.addComponent(Object3D,{object: cube});
